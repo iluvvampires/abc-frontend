@@ -5,6 +5,8 @@ import axios from 'axios';
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 
+const API_URL = 'https://abc-backend-4.onrender.com';
+
 function Dashboard() {
   const [user, setUser] = useState(null);
   const [exposures, setExposures] = useState([]);
@@ -48,9 +50,9 @@ function Dashboard() {
       // Fetch exposures based on role
       let expRes;
       if (currentUser.role === 'ADMIN') {
-        expRes = await axios.get('http://localhost:8081/api/dashboard/exposures');
+        expRes = await axios.get('https://abc-backend-4.onrender.com/api/dashboard/exposures');
       } else {
-        expRes = await axios.get(`http://localhost:8081/api/dashboard/exposures/clinic/${currentUser.clinicId}`);
+        expRes = await axios.get(`https://abc-backend-4.onrender.com/api/dashboard/exposures/clinic/${currentUser.clinicId}`);
       }
 
       // Filter out exposures without valid patient data
@@ -58,7 +60,7 @@ function Dashboard() {
       setExposures(validExposures);
 
       // Fetch clinics
-      const clinicRes = await axios.get('http://localhost:8081/api/clinics');
+      const clinicRes = await axios.get('https://abc-backend-4.onrender.com/api/clinics');
       setClinics(clinicRes.data);
     } catch (err) {
       console.error("Error fetching data:", err);
@@ -86,7 +88,7 @@ function Dashboard() {
 
     if (result.isConfirmed) {
       try {
-        await axios.delete(`http://localhost:8081/api/dashboard/exposures/${id}`);
+        await axios.delete(`https://abc-backend-4.onrender.com/api/dashboard/exposures/${id}`);
         setExposures(exposures.filter(exp => exp.id !== id));
         Swal.fire('Deleted!', 'Record has been deleted.', 'success');
       } catch (err) {
@@ -132,7 +134,7 @@ function Dashboard() {
      delete payload.otherExposureType;
 
      const response = await axios.patch(
-       `http://localhost:8081/api/dashboard/patients/${editingPatient.id}/assess`,
+       `https://abc-backend-4.onrender.com/api/dashboard/patients/${editingPatient.id}/assess`,
        payload
      );
 
@@ -154,7 +156,7 @@ function Dashboard() {
 
   const toggleClinicStatus = async (clinicId) => {
     try {
-      await axios.put(`http://localhost:8081/api/clinics/${clinicId}/toggle-status`);
+      await axios.put(`https://abc-backend-4.onrender.com/api/clinics/${clinicId}/toggle-status`);
       await fetchData(user);
       Swal.fire('Success', 'Clinic status updated', 'success');
     } catch (err) {
@@ -191,7 +193,7 @@ function Dashboard() {
         clinicId: signupData.role === 'EMPLOYEE' ? signupData.clinicId : null
       };
 
-      await axios.post('http://localhost:8081/api/auth/signup', payload);
+      await axios.post('https://abc-backend-4.onrender.com/api/auth/signup', payload);
       setSignupMsg({ text: 'Account created successfully!', type: 'success' });
       setSignupData({ username: '', password: '', confirmPassword: '', role: 'EMPLOYEE', clinicId: '' });
     } catch (err) {
