@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+const API_URL = 'https://abc-backend-4.onrender.com';
+
 function TermsAndConditions() {
   const [agreed, setAgreed] = useState(false);
   const navigate = useNavigate();
