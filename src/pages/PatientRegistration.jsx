@@ -4,6 +4,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+const API_URL = 'https://abc-backend-4.onrender.com';
+
 function PatientRegistration() {
   const navigate = useNavigate();
   const [clinic, setClinic] = useState(null);
@@ -204,7 +206,7 @@ const attemptSubmit = (e) => {
         clinicId: clinic.id
       };
 
-      const response = await axios.post('http://localhost:8081/api/register', payload);
+      const response = await axios.post('https://abc-backend-4.onrender.com/api/register', payload);
 
       if (response.status === 200) {
         // 1. Turn off the submitting state immediately so the UI isn't "stuck"
