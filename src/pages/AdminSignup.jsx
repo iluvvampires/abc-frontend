@@ -1,3 +1,4 @@
+const API_URL = 'https://abc-backend-4.onrender.com';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -46,7 +47,7 @@ function AdminSignup() {
         role: 'ADMIN',
         clinic: null
       };
-      await axios.post('http://localhost:8081/api/auth/signup', payload);
+      await axios.post('https://abc-backend-4.onrender.com/api/auth/signup', payload);
       setMessage('Secret Admin Registration successful! You can now log in at the main portal.');
       setTimeout(() => navigate('/login'), 2000);
     } catch (err) {
