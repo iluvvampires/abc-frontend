@@ -1,7 +1,8 @@
-const API_URL = 'https://abc-backend-4.onrender.com';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+
+const API_URL = 'https://abc-backend-4.onrender.com';
 
 function AdminSignup() {
   const [formData, setFormData] = useState({ username: '', password: '', confirmPassword: '' });
