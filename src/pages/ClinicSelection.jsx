@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+const API_URL = 'https://abc-backend-4.onrender.com';
+
 function ClinicSelection() {
   const [clinics, setClinics] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -10,7 +12,7 @@ function ClinicSelection() {
 
   useEffect(() => {
     // Fetch clinics from the backend
-    axios.get('http://localhost:8081/api/clinics')
+    axios.get('https://abc-backend-4.onrender.com/api/clinics')
       .then(response => {
         setClinics(response.data);
         setLoading(false);
