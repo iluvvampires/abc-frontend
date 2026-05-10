@@ -203,8 +203,9 @@ const attemptSubmit = (e) => {
         otherAnimalSpecify: formData.animalType !== 'Others' ? null : formData.otherAnimalSpecify,
         exposureType: formData.exposureType,
         placeOfExposure: formData.placeOfExposure,
-        clinicId: clinic.id
+        clinicId: clinic.clinicId || clinic.id,
       };
+        console.log('Sending payload:', payload);
 
       const response = await axios.post('https://abc-backend-4.onrender.com/api/register', payload);
 
