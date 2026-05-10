@@ -325,7 +325,7 @@ const attemptSubmit = (e) => {
          </div>
 
           <div className="grid grid-cols-3" style={{ gap: '1rem' }}>
-            <div className="form-group">
+            <div className="form-group" style={{ flex: 2 }}> {/* Make birthdate take more space */}
               <label>Birthdate <span style={{ color: 'var(--danger)' }}>*</span></label>
               <div style={{ width: '100%', position: 'relative' }}>
                 <DatePicker
@@ -350,6 +350,10 @@ const attemptSubmit = (e) => {
                         borderRadius: '8px',
                         fontSize: '1rem',
                         backgroundColor: 'white'
+                      }}
+                      maxLength="10"
+                      onInput={(e) => {
+                        e.target.value = e.target.value.replace(/[^0-9/]/g, '');
                       }}
                     />
                   }
@@ -380,26 +384,10 @@ const attemptSubmit = (e) => {
                 </svg>
               </div>
             </div>
-            <div className="form-group">
-              <label>Age (Auto-computed)</label>
-              <input
-                type="text"
-                className="form-control"
-                value={calculateAge()}
-                disabled
-                style={{
-                  width: '100%',
-                  padding: '0.75rem',
-                  backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                  color: '#1e40af',
-                  fontWeight: 'bold',
-                  border: '1px solid rgba(59, 130, 246, 0.3)',
-                  borderRadius: '8px',
-                  fontSize: '1rem'
-                }}
-              />
-            </div>
-          </div>
+                      <div className="form-group">
+                        <label>Age (Auto-computed)</label>
+                        <input type="text" className="form-control" value={calculateAge()} disabled style={{ backgroundColor: 'rgba(59, 130, 246, 0.1)', color: '#1e40af', fontWeight: 'bold', border: '1px solid rgba(59, 130, 246, 0.3)' }} />
+                      </div>
 
             <div className="form-group">
               <label>Gender <span style={{ color: 'red' }}>*</span></label>
