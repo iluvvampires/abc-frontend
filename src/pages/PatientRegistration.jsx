@@ -409,7 +409,7 @@ const attemptSubmit = (e) => {
                 <option value="Female">Female</option>
               </select>
             </div>
-          </div>
+
 
           <div className="grid grid-cols-2">
             <div className="form-group">
