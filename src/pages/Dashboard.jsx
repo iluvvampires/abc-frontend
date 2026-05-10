@@ -632,7 +632,7 @@ const generateMasterReport = () => {
                     <div key={clinic.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0.75rem', backgroundColor: 'rgba(37, 99, 235, 0.1)', borderRadius: '8px' }}>
                       <span style={{ fontSize: '0.875rem', fontWeight: 'bold' }}>{clinic.name}</span>
                       <button
-                        onClick={() => toggleClinicStatus(clinic.id)}
+                        onClick={() => toggleClinicStatus(clinic.clinic.id)}
                         style={{
                           padding: '0.25rem 0.75rem',
                           borderRadius: '20px',
@@ -744,7 +744,7 @@ const generateMasterReport = () => {
                               {exp.biteCategory}
                             </span>
                           ) : (
-                            <span style={{ color: '#f59e0b', fontStyle: 'italic' }}>Pending</span>
+                            <span style={{ color: '#ef4444', fontStyle: 'italic' }}>Pending</span>
                           )}
                         </td>
                         {user.role === 'ADMIN' && <td style={{ padding: '0.75rem' }}>{exp.clinic?.name || 'N/A'}</td>}
