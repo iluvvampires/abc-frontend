@@ -229,14 +229,12 @@ const handleCreateAccount = async (e) => {
       }
       return true;
     });
-  };
+  };git
 const generateClinicReport = (clinicId, clinicName) => {
   // Filter exposures to ONLY this clinic
   const clinicExposures = exposures.filter(e => e.clinic?.clinicId === clinicId);
-
   // Filter by timeframe
   const filteredData = filterDataByTimeframe(clinicExposures, reportType);
-
   // Generate PDF with the clinic name
   generatePDF(filteredData, clinicName);
 };
@@ -577,8 +575,10 @@ const generateMasterReport = () => {
                 <button
                   className="btn btn-primary"
                   onClick={() => {
-                    const clinicName = clinics.find(c => c.id === user.clinicId)?.name || 'My Clinic';
-                    const clinicExposures = exposures.filter(e => e.clinic?.id === user.clinicId);
+                    // Find the clinic name using user.clinicId
+                    const userClinic = clinics.find(c => c.clinicId === user.clinicId);
+                    const clinicName = userClinic?.name || 'My Clinic';
+                    const clinicExposures = exposures.filter(e => e.clinic?.clinicId === user.clinicId);
                     generatePDF(filterDataByTimeframe(clinicExposures, reportType), clinicName);
                   }}
                   style={{ width: '100%' }}
