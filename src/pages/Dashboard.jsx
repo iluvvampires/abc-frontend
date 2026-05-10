@@ -101,8 +101,8 @@ function Dashboard() {
     const today = new Date().toISOString().split('T')[0];
 
     setEditingPatient({
-      id: exposure.patient.id,
-      exposureId: exposure.id,
+        id: exposure.patient?.patientId,
+      exposureId: exposure.exposureId,
       firstName: exposure.patient.firstName || '',
       middleName: exposure.patient.middleName || '',
       lastName: exposure.patient.lastName || '',
@@ -220,7 +220,7 @@ function Dashboard() {
   };
 const generateClinicReport = (clinicId, clinicName) => {
   // Filter exposures to ONLY this clinic
-  const clinicExposures = exposures.filter(e => e.clinic?.id === clinicId);
+  const clinicExposures = exposures.filter(e => e.clinic?.clinicId === clinicId);
 
   // Filter by timeframe
   const filteredData = filterDataByTimeframe(clinicExposures, reportType);
