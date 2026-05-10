@@ -749,20 +749,22 @@ const generateMasterReport = () => {
                         </td>
                         {user.role === 'ADMIN' && <td style={{ padding: '0.75rem' }}>{exp.clinic?.name || 'N/A'}</td>}
                         <td style={{ padding: '0.75rem', textAlign: 'center' }}>
-                          <button
-                            onClick={() => handleUpdateClick(exp)}
-                            style={{ background: '#2563eb', color: 'white', border: 'none', padding: '0.4rem 0.8rem', borderRadius: '4px', cursor: 'pointer', marginRight: '0.5rem' }}
-                          >
-                            Edit
-                          </button>
-                          {user.role === 'ADMIN' && (
+                          <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'center' }}>
                             <button
-                              onClick={() => handleDelete(exp.id)}
-                              style={{ background: '#ef4444', color: 'white', border: 'none', padding: '0.4rem 0.8rem', borderRadius: '4px', cursor: 'pointer' }}
+                              onClick={() => handleUpdateClick(exp)}
+                              style={{ background: '#2563eb', color: 'white', border: 'none', padding: '0.4rem 0.8rem', borderRadius: '4px', cursor: 'pointer' }}
                             >
-                              Delete
+                              Edit
                             </button>
-                          )}
+                            {user.role === 'ADMIN' && (
+                              <button
+                                onClick={() => handleDelete(exp.id)}
+                                style={{ background: '#ef4444', color: 'white', border: 'none', padding: '0.4rem 0.8rem', borderRadius: '4px', cursor: 'pointer' }}
+                              >
+                                Delete
+                              </button>
+                            )}
+                          </div>
                         </td>
                       </tr>
                     ))}
