@@ -238,157 +238,150 @@ const generateClinicReport = (clinicId, clinicName) => {
   // Generate PDF with the clinic name
   generatePDF(filteredData, clinicName);
 };
-  const generatePDF = (dataToExport, clinicName) => {
-    try {
-      const doc = new jsPDF('landscape');
-      const now = new Date();
+   const generatePDF = (dataToExport, clinicName) => {
+      try {
+        const doc = new jsPDF('landscape');
+        const now = new Date();
 
-      // Timeframe string logic
-      let timeframeString = '';
-      if (reportType === 'weekly') {
-        const monthName = now.toLocaleDateString('en-US', { month: 'long' });
-        timeframeString = `Weekly: ${monthName} ${now.getFullYear()}`;
-      } else if (reportType === 'monthly') {
-        const monthName = now.toLocaleDateString('en-US', { month: 'long' });
-        timeframeString = `Monthly: ${monthName} ${now.getFullYear()}`;
-      } else if (reportType === 'yearly') {
-        timeframeString = `Yearly: ${now.getFullYear()}`;
-      }
-
-      // DOH OFFICIAL HEADER
-      doc.setFontSize(10);
-
-      doc.text("RABIES PREVENTION AND CONTROL PROGRAM", 148, 20, { align: 'center' });
-      doc.text("CITY HEALTH OFFICE", 148, 25, { align: 'center' });
-
-      doc.setFontSize(14);
-      doc.setFont(undefined, 'bold');
-      doc.text("ACCOMPLISHMENT REPORT", 148, 32, { align: 'center' });
-
-      doc.setFontSize(10);
-      doc.setFont(undefined, 'normal');
-      doc.text(`Clinic: ${clinicName}`, 14, 40);
-      doc.text(`Period: ${timeframeString}`, 14, 45);
-
-      // Calculate totals directly from dataToExport
-      let totalPatients = dataToExport.length;
-      let maleCount = 0;
-      let femaleCount = 0;
-      let u15Count = 0;
-      let o15Count = 0;
-      let cat1Count = 0;
-      let cat2Count = 0;
-      let cat3Count = 0;
-      let dogCount = 0;
-      let catCount = 0;
-      let otherCount = 0;
-
-      dataToExport.forEach(exp => {
-        // Gender
-        if (exp.patient?.gender === 'Male') {
-          maleCount++;
-        } else if (exp.patient?.gender === 'Female') {
-          femaleCount++;
+        // Timeframe string logic
+        let timeframeString = '';
+        if (reportType === 'weekly') {
+          const monthName = now.toLocaleDateString('en-US', { month: 'long' });
+          timeframeString = `Weekly: ${monthName} ${now.getFullYear()}`;
+        } else if (reportType === 'monthly') {
+          const monthName = now.toLocaleDateString('en-US', { month: 'long' });
+          timeframeString = `Monthly: ${monthName} ${now.getFullYear()}`;
+        } else if (reportType === 'yearly') {
+          timeframeString = `Yearly: ${now.getFullYear()}`;
         }
 
-        // Age calculation
-        const birthDate = exp.patient?.birthdate ? new Date(exp.patient.birthdate) : null;
-        if (birthDate) {
-          const age = Math.floor((new Date() - birthDate) / 31557600000);
-          if (age < 15) {
-            u15Count++;
-          } else {
-            o15Count++;
+        // DOH OFFICIAL HEADER
+        doc.setFontSize(10);
+        doc.text("CENTER FOR HEALTH DEVELOPMENT IV-A", 148, 15, { align: 'center' });
+        doc.text("RABIES PREVENTION AND CONTROL PROGRAM", 148, 20, { align: 'center' });
+        doc.text("CITY HEALTH OFFICE", 148, 25, { align: 'center' });
+
+        doc.setFontSize(14);
+        doc.setFont(undefined, 'bold');
+        doc.text("ACCOMPLISHMENT REPORT", 148, 32, { align: 'center' });
+
+        doc.setFontSize(10);
+        doc.setFont(undefined, 'normal');
+        doc.text(`Clinic: ${clinicName}`, 14, 40);
+        doc.text(`Period: ${timeframeString}`, 14, 45);
+
+        // Calculate totals directly from dataToExport
+        let totalPatients = dataToExport.length;
+        let maleCount = 0;
+        let femaleCount = 0;
+        let u15Count = 0;
+        let o15Count = 0;
+        let cat1Count = 0;
+        let cat2Count = 0;
+        let cat3Count = 0;
+        let dogCount = 0;
+        let catCount = 0;
+        let otherCount = 0;
+
+        dataToExport.forEach(exp => {
+          // Gender
+          if (exp.patient?.gender === 'Male') {
+            maleCount++;
+          } else if (exp.patient?.gender === 'Female') {
+            femaleCount++;
           }
-        }
 
-        // Exposure Category
-        const biteCat = exp.biteCategory || '';
-        if (biteCat === 'Category 1') {
-          cat1Count++;
-        } else if (biteCat === 'Category 2') {
-          cat2Count++;
-        } else if (biteCat === 'Category 3') {
-          cat3Count++;
-        }
+          // Age calculation
+          const birthDate = exp.patient?.birthdate ? new Date(exp.patient.birthdate) : null;
+          if (birthDate) {
+            const age = Math.floor((new Date() - birthDate) / 31557600000);
+            if (age < 15) {
+              u15Count++;
+            } else {
+              o15Count++;
+            }
+          }
 
-        // Animal Type
-        const animal = exp.animalType || '';
-        if (animal === 'Dog') {
-          dogCount++;
-        } else if (animal === 'Cat') {
-          catCount++;
-        } else if (animal && animal !== 'Dog' && animal !== 'Cat') {
-          otherCount++;
-        }
-      });
+          // Exposure Category
+          const biteCat = exp.biteCategory || '';
+          if (biteCat === 'Category 1') {
+            cat1Count++;
+          } else if (biteCat === 'Category 2') {
+            cat2Count++;
+          } else if (biteCat === 'Category 3') {
+            cat3Count++;
+          }
 
-      // SIMPLE TABLE STRUCTURE - Single header row
-      const headers = [
-        'Registered Patients', 'Male', 'Female', '<15', '>15',
-        'CAT I', 'CAT II', 'CAT III', 'Dog', 'Cat', 'Others', 'TOTAL'
-      ];
+          // Animal Type
+          const animal = exp.animalType || '';
+          if (animal === 'Dog') {
+            dogCount++;
+          } else if (animal === 'Cat') {
+            catCount++;
+          } else if (animal && animal !== 'Dog' && animal !== 'Cat') {
+            otherCount++;
+          }
+        });
 
-      const body = [[
-        totalPatients,
-        maleCount,
-        femaleCount,
-        u15Count,
-        o15Count,
-        cat1Count,
-        cat2Count,
-        cat3Count,
-        dogCount,
-        catCount,
-        otherCount,
-        totalPatients
-      ]];
+        // TABLE STRUCTURE - Multi-row header
+        const head1 = [
+          { content: 'Registered Patients', rowSpan: 2, styles: { valign: 'middle', halign: 'center', fillColor: [37, 99, 235] } },
+          { content: 'Sex', colSpan: 2, styles: { halign: 'center', fillColor: [37, 99, 235] } },
+          { content: 'Age', colSpan: 2, styles: { halign: 'center', fillColor: [37, 99, 235] } },
+          { content: 'AB Category', colSpan: 3, styles: { halign: 'center', fillColor: [37, 99, 235] } },
+          { content: 'Biting Animal', colSpan: 3, styles: { halign: 'center', fillColor: [37, 99, 235] } },
+          { content: 'TOTAL', rowSpan: 2, styles: { valign: 'middle', halign: 'center', fillColor: [37, 99, 235] } }
+        ];
 
-      // GENERATE TABLE
-      autoTable(doc, {
-        startY: 50,
-        head: [headers],
-        body: body,
-        theme: 'grid',
-        styles: {
-          fontSize: 10,
-          halign: 'center',
-          valign: 'middle',
-          lineColor: [0, 0, 0],
-          lineWidth: 0.1,
-          cellPadding: 5
-        },
-        headStyles: {
-          textColor: [255, 255, 255],
-          fillColor: [37, 99, 235],
-          fontStyle: 'bold',
-          halign: 'center',
-          fontSize: 10
-        },
-        foot: [[
-          { content: 'TOTAL:', colSpan: 1, styles: { fontStyle: 'bold', fillColor: [240, 240, 240] } },
-          { content: maleCount, styles: { fontStyle: 'bold', fillColor: [240, 240, 240] } },
-          { content: femaleCount, styles: { fontStyle: 'bold', fillColor: [240, 240, 240] } },
-          { content: u15Count, styles: { fontStyle: 'bold', fillColor: [240, 240, 240] } },
-          { content: o15Count, styles: { fontStyle: 'bold', fillColor: [240, 240, 240] } },
-          { content: cat1Count, styles: { fontStyle: 'bold', fillColor: [240, 240, 240] } },
-          { content: cat2Count, styles: { fontStyle: 'bold', fillColor: [240, 240, 240] } },
-          { content: cat3Count, styles: { fontStyle: 'bold', fillColor: [240, 240, 240] } },
-          { content: dogCount, styles: { fontStyle: 'bold', fillColor: [240, 240, 240] } },
-          { content: catCount, styles: { fontStyle: 'bold', fillColor: [240, 240, 240] } },
-          { content: otherCount, styles: { fontStyle: 'bold', fillColor: [240, 240, 240] } },
-          { content: totalPatients, styles: { fontStyle: 'bold', fillColor: [240, 240, 240] } }
-        ]]
-      });
+        const head2 = [
+          'Male', 'Female', '<15', '>15', 'CAT I', 'CAT II', 'CAT III', 'Dog', 'Cat', 'Others'
+        ];
 
-      // Save the PDF
-      doc.save(`DOH_Report_${clinicName.replace(/\s+/g, '_')}_${now.toISOString().split('T')[0]}.pdf`);
+        const body = [[
+          totalPatients,
+          maleCount,
+          femaleCount,
+          u15Count,
+          o15Count,
+          cat1Count,
+          cat2Count,
+          cat3Count,
+          dogCount,
+          catCount,
+          otherCount,
+          totalPatients
+        ]];
 
-    } catch (err) {
-      console.error("PDF Generation Error:", err);
-      Swal.fire('Error', 'Failed to generate PDF: ' + err.message, 'error');
-    }
-  };
+        // GENERATE TABLE
+        autoTable(doc, {
+          startY: 50,
+          head: [head1, head2],
+          body: body,
+          theme: 'grid',
+          styles: {
+            fontSize: 9,
+            halign: 'center',
+            valign: 'middle',
+            lineColor: [0, 0, 0],
+            lineWidth: 0.1,
+            cellPadding: 4
+          },
+          headStyles: {
+            textColor: [255, 255, 255],
+            fillColor: [37, 99, 235],
+            fontStyle: 'bold',
+            halign: 'center'
+          }
+        });
+
+        // Save the PDF
+        doc.save(`DOH_Report_${clinicName.replace(/\s+/g, '_')}_${now.toISOString().split('T')[0]}.pdf`);
+
+      } catch (err) {
+        console.error("PDF Generation Error:", err);
+        Swal.fire('Error', 'Failed to generate PDF: ' + err.message, 'error');
+      }
+    };
 
 const generateMasterReport = () => {
   // Filter data by timeframe
