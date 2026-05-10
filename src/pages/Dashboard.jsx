@@ -259,7 +259,7 @@ const generateClinicReport = (clinicId, clinicName) => {
 
       // DOH OFFICIAL HEADER
       doc.setFontSize(10);
-      doc.text("CENTER FOR HEALTH DEVELOPMENT IV-A", 148, 15, { align: 'center' });
+
       doc.text("RABIES PREVENTION AND CONTROL PROGRAM", 148, 20, { align: 'center' });
       doc.text("CITY HEALTH OFFICE", 148, 25, { align: 'center' });
 
