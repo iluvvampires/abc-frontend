@@ -627,12 +627,12 @@ const generateMasterReport = () => {
               <h3 style={{ marginBottom: '1rem', borderBottom: '1px solid var(--border)', paddingBottom: '0.5rem' }}>Clinic Status</h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                 {clinics.map(clinic => {
-                  if (user.role === 'EMPLOYEE' && clinic.id !== user.clinicId) return null;
+                  if (user.role === 'EMPLOYEE' && clinic.clinicId !== user.clinicId) return null;
                   return (
-                    <div key={clinic.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0.75rem', backgroundColor: 'rgba(37, 99, 235, 0.1)', borderRadius: '8px' }}>
+                    <div key={clinic.clinicId} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0.75rem', backgroundColor: 'rgba(37, 99, 235, 0.1)', borderRadius: '8px' }}>
                       <span style={{ fontSize: '0.875rem', fontWeight: 'bold' }}>{clinic.name}</span>
                       <button
-                        onClick={() => toggleClinicStatus(clinic.clinic.id)}
+                        onClick={() => toggleClinicStatus(clinic.clinicId)}
                         style={{
                           padding: '0.25rem 0.75rem',
                           borderRadius: '20px',
