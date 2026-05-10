@@ -3,6 +3,8 @@ import { PHILIPPINE_LOCATIONS } from '../locationData';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 const API_URL = 'https://abc-backend-4.onrender.com';
 
