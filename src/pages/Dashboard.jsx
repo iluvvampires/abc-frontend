@@ -330,12 +330,13 @@ const generateClinicReport = (clinicId, clinicName) => {
           { content: 'Age', colSpan: 2, styles: { halign: 'center', fillColor: [37, 99, 235] } },
           { content: 'AB Category', colSpan: 3, styles: { halign: 'center', fillColor: [37, 99, 235] } },
           { content: 'Biting Animal', colSpan: 3, styles: { halign: 'center', fillColor: [37, 99, 235] } },
-          { content: 'TOTAL', rowSpan: 2, styles: { valign: 'middle', halign: 'center', fillColor: [37, 99, 235] } }
+
         ];
 
         const head2 = [
           'Male', 'Female', '<15', '>15', 'CAT I', 'CAT II', 'CAT III', 'Dog', 'Cat', 'Others'
         ];
+
 
         const body = [[
           totalPatients,
@@ -349,8 +350,23 @@ const generateClinicReport = (clinicId, clinicName) => {
           dogCount,
           catCount,
           otherCount,
-          totalPatients
         ]];
+
+    const foot = [[
+          { content: 'TOTAL', styles: { fontStyle: 'bold', fillColor: [240, 240, 240] } },
+          { content: maleCount, styles: { fontStyle: 'bold', fillColor: [240, 240, 240] } },
+          { content: femaleCount, styles: { fontStyle: 'bold', fillColor: [240, 240, 240] } },
+          { content: u15Count, styles: { fontStyle: 'bold', fillColor: [240, 240, 240] } },
+          { content: o15Count, styles: { fontStyle: 'bold', fillColor: [240, 240, 240] } },
+          { content: cat1Count, styles: { fontStyle: 'bold', fillColor: [240, 240, 240] } },
+          { content: cat2Count, styles: { fontStyle: 'bold', fillColor: [240, 240, 240] } },
+          { content: cat3Count, styles: { fontStyle: 'bold', fillColor: [240, 240, 240] } },
+          { content: dogCount, styles: { fontStyle: 'bold', fillColor: [240, 240, 240] } },
+          { content: catCount, styles: { fontStyle: 'bold', fillColor: [240, 240, 240] } },
+          { content: otherCount, styles: { fontStyle: 'bold', fillColor: [240, 240, 240] } }
+        ]];
+
+
 
         // GENERATE TABLE
         autoTable(doc, {
