@@ -1010,9 +1010,14 @@ const generateMasterReport = () => {
                     <input
                       type="text"
                       className="form-control"
-                      placeholder="Specify type of animal"
                       value={editingPatient.otherAnimalSpecify || ''}
-                      onChange={e => setEditingPatient({...editingPatient, otherAnimalSpecify: e.target.value})}
+
+
+                      onChange={e => {
+                                          const lowerCaseLettersOnly = e.target.value.toLowerCase().replace(/[^a-z\s]/g, '');
+                                          setEditingPatient({...editingPatient, otherAnimalSpecify: lowerCaseLettersOnly});
+                                        }}
+                                    placeholder="Specify type of animal"
                       style={{ marginTop: '0.5rem', backgroundColor: '#ffffff', border: '1px solid #cbd5e1', padding: '0.5rem', borderRadius: '6px', width: '100%' }}
                     />
                   )}
