@@ -310,7 +310,7 @@ const attemptSubmit = (e) => {
 
            {/* LAST NAME */}
            <div className="form-group">
-             <label>Last Name <span style={{ color: 'red' }}>*</label>
+             <label>Last Name <span style={{ color: 'red' }}>*</span></label>
              <input
                type="text"
                name="lastName"
@@ -324,7 +324,7 @@ const attemptSubmit = (e) => {
 
           <div className="grid grid-cols-3">
             <div className="form-group">
-              <label>Birthdate <span style={{ color: 'red' }}>*</label>
+              <label>Birthdate <span style={{ color: 'red' }}>*</span></label>
               <input
                 type="date"
                 className="form-control"
@@ -344,7 +344,7 @@ const attemptSubmit = (e) => {
               <input type="text" className="form-control" value={calculateAge()} disabled style={{ backgroundColor: 'rgba(0,0,0,0.3)', color: 'var(--text-muted)' }} />
             </div>
             <div className="form-group">
-              <label>Gender <span style={{ color: 'red' }}>*</label>
+              <label>Gender <span style={{ color: 'red' }}>*</span></label>
               <select className="form-control" name="gender" value={formData.gender} onChange={handleChange} required>
                 <option value="">Select Gender</option>
                 <option value="Male">Male</option>
@@ -355,7 +355,7 @@ const attemptSubmit = (e) => {
 
           <div className="grid grid-cols-2">
             <div className="form-group">
-              <label>Contact Number <span style={{ color: 'red' }}>*</label>
+              <label>Contact Number <span style={{ color: 'red' }}>*</span></label>
               <input
                 type="text" // Use "text" instead of "number" to prevent the "e" character and arrows
                 name="contactNumber"
@@ -377,7 +377,7 @@ const attemptSubmit = (e) => {
           <div className="grid grid-cols-2">
             {/* REGION */}
             <div className="form-group">
-              <label>Region <span style={{ color: 'red' }}>*</label>
+              <label>Region <span style={{ color: 'red' }}>*</span></label>
               <select className="form-control" name="region" value={formData.region} onChange={handleChange} required>
                 <option value="">Select Region</option>
                 {regions.map(r => <option key={r} value={r}>{r}</option>)}
@@ -386,7 +386,7 @@ const attemptSubmit = (e) => {
 
             {/* PROVINCE */}
             <div className="form-group">
-              <label>Province <span style={{ color: 'red' }}>*</label>
+              <label>Province <span style={{ color: 'red' }}>*</span></label>
               <select className="form-control" name="province" value={formData.province} onChange={handleChange} required disabled={!formData.region}>
                 <option value="">Select Province</option>
                 {provinces.map(p => <option key={p} value={p}>{p}</option>)}
@@ -395,7 +395,7 @@ const attemptSubmit = (e) => {
 
             {/* CITY */}
             <div className="form-group">
-              <label>City/Municipality <span style={{ color: 'red' }}>*</label>
+              <label>City/Municipality <span style={{ color: 'red' }}>*</span></label>
               <select className="form-control" name="city" value={formData.city} onChange={handleChange} required disabled={!formData.province}>
                 <option value="">Select City</option>
                 {cities.map(c => <option key={c} value={c}>{c}</option>)}
@@ -404,7 +404,7 @@ const attemptSubmit = (e) => {
 
             {/* BARANGAY */}
             <div className="form-group">
-              <label>Barangay <span style={{ color: 'red' }}>*</label>
+              <label>Barangay <span style={{ color: 'red' }}>*</span></label>
               <select className="form-control" name="barangay" value={formData.barangay} onChange={handleChange} required disabled={!formData.city}>
                 <option value="">Select Barangay</option>
                 {barangays.map(b => <option key={b.name} value={b.name}>{b.name}</option>)}
@@ -428,7 +428,7 @@ const attemptSubmit = (e) => {
 
             {/* STREET ADDRESS */}
             <div className="form-group">
-              <label>Street Address / House No. <span style={{ color: 'red' }}>*</label>
+              <label>Street Address / House No. <span style={{ color: 'red' }}>*</span></label>
               <input
                 type="text"
                 className="form-control"
