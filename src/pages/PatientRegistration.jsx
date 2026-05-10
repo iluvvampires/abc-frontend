@@ -1,5 +1,4 @@
 import Swal from 'sweetalert2';
-import { PHILIPPINE_LOCATIONS } from '../locationData';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -169,44 +168,38 @@ const handleContactChange = (e) => {
 };
 
 
-
 const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
 
     // 1. Handle Checkboxes
     if (type === 'checkbox') {
-      let updatedConditions = [...formData.animalConditions];
-      if (checked) {
-        updatedConditions.push(value);
-      } else {
-        updatedConditions = updatedConditions.filter(c => c !== value);
-      }
-      setFormData({ ...formData, animalConditions: updatedConditions });
+        let updatedConditions = [...formData.animalConditions];
+        if (checked) {
+            updatedConditions.push(value);
+        } else {
+            updatedConditions = updatedConditions.filter(c => c !== value);
+        }
+        setFormData({ ...formData, animalConditions: updatedConditions });
     }
-    // 2. Handle Barangay & Auto-Zone
+    // 2. Handle Barangay
     else if (name === "barangay") {
-      const selectedBarangayObj = barangays.find(b => b.name === value);
-      setFormData({
-        ...formData,
-        barangay: value,
-        zone: selectedBarangayObj ? selectedBarangayObj.zone : ""
-      });
+        setFormData({
+            ...formData,
+            barangay: value
+        });
     }
     // 3. Handle Cascading Resets
-    else if (name === "region") {
-      setFormData({ ...formData, region: value, province: "", city: "", barangay: "", zone: "" });
-    }
     else if (name === "province") {
-      setFormData({ ...formData, province: value, city: "", barangay: "", zone: "" });
+        setFormData({ ...formData, province: value, city: "", barangay: "" });
     }
     else if (name === "city") {
-      setFormData({ ...formData, city: value, barangay: "", zone: "" });
+        setFormData({ ...formData, city: value, barangay: "" });
     }
     // 4. Default for all other inputs
     else {
-      setFormData({ ...formData, [name]: value });
+        setFormData({ ...formData, [name]: value });
     }
-  }; // This closes the function correctly
+};
 
 
   const calculateAge = () => {
@@ -461,9 +454,9 @@ const attemptSubmit = (e) => {
             {/* PROVINCE */}
             <div className="form-group">
               <label>Province <span style={{ color: 'red' }}>*</span></label>
-              <select className="form-control" name="province" value={formData.province} onChange={handleChange} required disabled={!formData.region}>
+              <select className="form-control" name="province" value={formData.province} onChange={handleChange} required>
                 <option value="">Select Province</option>
-                {provinces.map(p => <option key={p} value={p}>{p}</option>)}
+                {luzonProvinces.map(p => <option key={p} value={p}>{p}</option>)}
               </select>
             </div>
 
@@ -472,17 +465,29 @@ const attemptSubmit = (e) => {
               <label>City/Municipality <span style={{ color: 'red' }}>*</span></label>
               <select className="form-control" name="city" value={formData.city} onChange={handleChange} required disabled={!formData.province}>
                 <option value="">Select City</option>
-                {cities.map(c => <option key={c} value={c}>{c}</option>)}
+                {availableCities.map(c => <option key={c} value={c}>{c}</option>)}
               </select>
             </div>
 
             {/* BARANGAY */}
             <div className="form-group">
               <label>Barangay <span style={{ color: 'red' }}>*</span></label>
-              <select className="form-control" name="barangay" value={formData.barangay} onChange={handleChange} required disabled={!formData.city}>
-                <option value="">Select Barangay</option>
-                {barangays.map(b => <option key={b.name} value={b.name}>{b.name}</option>)}
-              </select>
+              {availableBarangays ? (
+                <select className="form-control" name="barangay" value={formData.barangay} onChange={handleChange} required>
+                  <option value="">Select Barangay</option>
+                  {availableBarangays.map(b => <option key={b} value={b}>{b}</option>)}
+                </select>
+              ) : (
+                <input
+                  type="text"
+                  className="form-control"
+                  name="barangay"
+                  value={formData.barangay}
+                  onChange={handleChange}
+                  placeholder="Enter barangay"
+                  required
+                />
+              )}
             </div>
 
 
@@ -500,7 +505,7 @@ const attemptSubmit = (e) => {
                 placeholder="123 Street Name"
               />
             </div>
-            </div>
+
 
 
 
