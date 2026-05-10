@@ -738,9 +738,9 @@ const generateMasterReport = () => {
                         <td style={{ padding: '0.75rem' }}>{`${exp.patient?.barangay || ''}, ${exp.patient?.city || ''}`}</td>
                         <td style={{ padding: '0.75rem' }}>{exp.exposureDate || 'N/A'}</td>
                         <td style={{ padding: '0.75rem' }}>{exp.animalType || 'N/A'}</td>
-                        <td style={{ padding: '0.75rem' }}>
+                        <td style={{ padding: '0.75rem', whiteSpace: 'nowrap' }}>
                           {exp.biteCategory ? (
-                            <span style={{ backgroundColor: '#dbeafe', color: '#2563eb', padding: '0.25rem 0.5rem', borderRadius: '20px', fontSize: '0.75rem' }}>
+                            <span style={{ backgroundColor: '#dbeafe', color: '#2563eb', padding: '0.25rem 0.75rem', borderRadius: '20px', fontSize: '0.75rem' }}>
                               {exp.biteCategory}
                             </span>
                           ) : (
