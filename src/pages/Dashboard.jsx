@@ -272,37 +272,25 @@ const generateClinicReport = (clinicId, clinicName) => {
       doc.text(`Clinic: ${clinicName}`, 14, 40);
       doc.text(`Period: ${timeframeString}`, 14, 45);
 
-      // DISTRICT GROUPING LOGIC
-      const districts = ['NORTH', 'WEST', 'EAST', 'URBAN', 'SOUTH'];
-      const groupedData = {};
-      districts.forEach(d => {
-        groupedData[d] = {
-          m: 0, f: 0, u15: 0, o15: 0,
-          c1: 0, c2: 0, c3: 0,
-          dog: 0, cat: 0, oth: 0,
-          total: 0
-        };
-      });
+      // Calculate totals directly from dataToExport
+      let totalPatients = dataToExport.length;
+      let maleCount = 0;
+      let femaleCount = 0;
+      let u15Count = 0;
+      let o15Count = 0;
+      let cat1Count = 0;
+      let cat2Count = 0;
+      let cat3Count = 0;
+      let dogCount = 0;
+      let catCount = 0;
+      let otherCount = 0;
 
-      // Process ONLY the data passed to this function (already filtered by clinic)
       dataToExport.forEach(exp => {
-        // Use district from patient's zone
-        let district = exp.patient?.zone?.toUpperCase() || 'URBAN';
-
-        // Map to valid district or default to URBAN
-        const validDistricts = ['NORTH', 'WEST', 'EAST', 'URBAN', 'SOUTH'];
-        if (!validDistricts.includes(district)) {
-          district = 'URBAN';
-        }
-
-        const s = groupedData[district];
-        s.total++;
-
         // Gender
         if (exp.patient?.gender === 'Male') {
-          s.m++;
+          maleCount++;
         } else if (exp.patient?.gender === 'Female') {
-          s.f++;
+          femaleCount++;
         }
 
         // Age calculation
@@ -310,104 +298,89 @@ const generateClinicReport = (clinicId, clinicName) => {
         if (birthDate) {
           const age = Math.floor((new Date() - birthDate) / 31557600000);
           if (age < 15) {
-            s.u15++;
+            u15Count++;
           } else {
-            s.o15++;
+            o15Count++;
           }
         }
 
         // Exposure Category
         const biteCat = exp.biteCategory || '';
         if (biteCat === 'Category 1') {
-          s.c1++;
+          cat1Count++;
         } else if (biteCat === 'Category 2') {
-          s.c2++;
+          cat2Count++;
         } else if (biteCat === 'Category 3') {
-          s.c3++;
+          cat3Count++;
         }
 
         // Animal Type
         const animal = exp.animalType || '';
         if (animal === 'Dog') {
-          s.dog++;
+          dogCount++;
         } else if (animal === 'Cat') {
-          s.cat++;
+          catCount++;
         } else if (animal && animal !== 'Dog' && animal !== 'Cat') {
-          s.oth++;
+          otherCount++;
         }
       });
 
-      // TABLE STRUCTURE
-      const head1 = [
-        { content: 'DISTRICT / HEALTH CENTER', rowSpan: 2, styles: { valign: 'middle', halign: 'center', fillColor: [37, 99, 235] } },
-        { content: 'SEX', colSpan: 2, styles: { halign: 'center', fillColor: [37, 99, 235] } },
-        { content: 'AGE', colSpan: 2, styles: { halign: 'center', fillColor: [37, 99, 235] } },
-        { content: 'AB CATEGORY', colSpan: 3, styles: { halign: 'center', fillColor: [37, 99, 235] } },
-        { content: 'BITING ANIMAL', colSpan: 3, styles: { halign: 'center', fillColor: [37, 99, 235] } },
-        { content: 'TOTAL', rowSpan: 2, styles: { valign: 'middle', halign: 'center', fillColor: [37, 99, 235] } }
+      // SIMPLE TABLE STRUCTURE - Single header row
+      const headers = [
+        'Registered Patients', 'Male', 'Female', '<15', '>15',
+        'CAT I', 'CAT II', 'CAT III', 'Dog', 'Cat', 'Others', 'TOTAL'
       ];
 
-      const head2 = ['M', 'F', '<15', '>15', 'CAT I', 'CAT II', 'CAT III', 'DOG', 'CAT', 'OTHERS'];
-
-      // Prepare body data
-      const body = districts.map(district => [
-        district,
-        groupedData[district].m,
-        groupedData[district].f,
-        groupedData[district].u15,
-        groupedData[district].o15,
-        groupedData[district].c1,
-        groupedData[district].c2,
-        groupedData[district].c3,
-        groupedData[district].dog,
-        groupedData[district].cat,
-        groupedData[district].oth,
-        { content: groupedData[district].total, styles: { fontStyle: 'bold' } }
-      ]);
-
-      // Calculate total row
-      const totalRow = [
-        'TOTAL',
-        districts.reduce((sum, d) => sum + groupedData[d].m, 0),
-        districts.reduce((sum, d) => sum + groupedData[d].f, 0),
-        districts.reduce((sum, d) => sum + groupedData[d].u15, 0),
-        districts.reduce((sum, d) => sum + groupedData[d].o15, 0),
-        districts.reduce((sum, d) => sum + groupedData[d].c1, 0),
-        districts.reduce((sum, d) => sum + groupedData[d].c2, 0),
-        districts.reduce((sum, d) => sum + groupedData[d].c3, 0),
-        districts.reduce((sum, d) => sum + groupedData[d].dog, 0),
-        districts.reduce((sum, d) => sum + groupedData[d].cat, 0),
-        districts.reduce((sum, d) => sum + groupedData[d].oth, 0),
-        {
-          content: districts.reduce((sum, d) => sum + groupedData[d].total, 0),
-          styles: { fontStyle: 'bold', fillColor: [240, 240, 240] }
-        }
-      ];
-      body.push(totalRow);
+      const body = [[
+        totalPatients,
+        maleCount,
+        femaleCount,
+        u15Count,
+        o15Count,
+        cat1Count,
+        cat2Count,
+        cat3Count,
+        dogCount,
+        catCount,
+        otherCount,
+        totalPatients
+      ]];
 
       // GENERATE TABLE
       autoTable(doc, {
         startY: 50,
-        head: [head1, head2],
+        head: [headers],
         body: body,
         theme: 'grid',
         styles: {
-          fontSize: 8,
+          fontSize: 10,
           halign: 'center',
           valign: 'middle',
           lineColor: [0, 0, 0],
           lineWidth: 0.1,
-          cellPadding: 3
+          cellPadding: 5
         },
         headStyles: {
           textColor: [255, 255, 255],
           fillColor: [37, 99, 235],
           fontStyle: 'bold',
-          halign: 'center'
+          halign: 'center',
+          fontSize: 10
         },
-        alternateRowStyles: {
-          fillColor: [245, 245, 245]
-        }
+        foot: [[
+          { content: 'TOTAL:', colSpan: 1, styles: { fontStyle: 'bold', fillColor: [240, 240, 240] } },
+          { content: maleCount, styles: { fontStyle: 'bold', fillColor: [240, 240, 240] } },
+          { content: femaleCount, styles: { fontStyle: 'bold', fillColor: [240, 240, 240] } },
+          { content: u15Count, styles: { fontStyle: 'bold', fillColor: [240, 240, 240] } },
+          { content: o15Count, styles: { fontStyle: 'bold', fillColor: [240, 240, 240] } },
+          { content: cat1Count, styles: { fontStyle: 'bold', fillColor: [240, 240, 240] } },
+          { content: cat2Count, styles: { fontStyle: 'bold', fillColor: [240, 240, 240] } },
+          { content: cat3Count, styles: { fontStyle: 'bold', fillColor: [240, 240, 240] } },
+          { content: dogCount, styles: { fontStyle: 'bold', fillColor: [240, 240, 240] } },
+          { content: catCount, styles: { fontStyle: 'bold', fillColor: [240, 240, 240] } },
+          { content: otherCount, styles: { fontStyle: 'bold', fillColor: [240, 240, 240] } },
+          { content: totalPatients, styles: { fontStyle: 'bold', fillColor: [240, 240, 240] } }
+        ]]
       });
 
       // Save the PDF
