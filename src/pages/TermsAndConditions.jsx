@@ -16,52 +16,46 @@ function TermsAndConditions() {
       <div className="glass-panel" style={{ padding: '3rem' }}>
         <h2 style={{ marginBottom: '1.5rem', color: 'var(--text-main)' }}>Terms and Conditions</h2>
         
-        <div style={{ 
-          height: '300px', 
-          overflowY: 'auto', 
-          padding: '1.5rem', 
-          backgroundColor: 'rgba(0,0,0,0.2)', 
-          borderRadius: '8px',
-          marginBottom: '2rem',
-          border: '1px solid var(--border)',
-          fontSize: '0.9rem',
-          color: 'var(--text-muted)'
-        }}>
-          <h4 style={{ color: 'white', marginBottom: '0.5rem' }}>1. Data Privacy and Consent</h4>
-          <p style={{ marginBottom: '1rem' }}>
-            By submitting this registration form, you consent to the collection, processing, and storage of your personal data by the Animal Bite Clinic Network in accordance with the Data Privacy Act of 2012. 
+        {/* Removed the scrollable box - now showing sections directly */}
+        <div style={{ marginBottom: '2rem' }}>
+          <h4 style={{ color: 'var(--text-main)', marginBottom: '0.5rem', fontSize: '1.1rem' }}>1. Data Privacy and Consent</h4>
+          <p style={{ marginBottom: '1.5rem', color: 'var(--text-muted)', lineHeight: '1.6' }}>
+            By submitting this registration form, you consent to the collection, processing, and storage of your personal data by the Animal Bite Clinic Network in accordance with the Data Privacy Act of 2012.
             The information collected will be used solely for medical assessment, treatment, and legal documentation regarding animal bite exposure.
           </p>
-          
-          <h4 style={{ color: 'white', marginBottom: '0.5rem' }}>2. Accuracy of Information</h4>
-          <p style={{ marginBottom: '1rem' }}>
-            You certify that all information provided in this registration form is true, correct, and complete to the best of your knowledge. 
-            Providing false information may result in inappropriate medical treatment or refusal of service.
-          </p>
 
-          <h4 style={{ color: 'white', marginBottom: '0.5rem' }}>3. Treatment Protocol</h4>
-          <p style={{ marginBottom: '1rem' }}>
-            You understand that treatment protocols (including vaccination schedules) are determined by medical professionals based on the severity of the exposure. 
-            You agree to follow the prescribed schedule and acknowledge that failure to complete the regimen may compromise its effectiveness.
+          <h4 style={{ color: 'var(--text-main)', marginBottom: '0.5rem', fontSize: '1.1rem' }}>2. Accuracy of Information</h4>
+          <p style={{ marginBottom: '1rem', color: 'var(--text-muted)', lineHeight: '1.6' }}>
+            You certify that all information provided in this registration form is true, correct, and complete to the best of your knowledge.
+            Providing false information may result in inappropriate medical treatment or refusal of service.
           </p>
         </div>
 
+        {/* Checkbox */}
         <div style={{ display: 'flex', alignItems: 'flex-start', gap: '1rem', marginBottom: '2rem' }}>
-          <input 
-            type="checkbox" 
-            id="agree" 
-            checked={agreed} 
-            onChange={(e) => setAgreed(e.target.checked)} 
+          <input
+            type="checkbox"
+            id="agree"
+            checked={agreed}
+            onChange={(e) => setAgreed(e.target.checked)}
             style={{ marginTop: '0.25rem', width: '1.2rem', height: '1.2rem', cursor: 'pointer' }}
           />
-          <label htmlFor="agree" style={{ cursor: 'pointer', lineHeight: '1.5' }}>
+          <label htmlFor="agree" style={{ cursor: 'pointer', lineHeight: '1.5', color: 'var(--text-muted)' }}>
             I have read and understood the Terms and Conditions, and I consent to the processing of my personal data for the purpose of animal bite treatment.
           </label>
         </div>
 
+        {/* Buttons */}
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <button className="btn btn-secondary" onClick={() => navigate('/select-clinic')}>Back</button>
-          <button className="btn btn-primary" disabled={!agreed} onClick={handleContinue}>Continue to Registration</button>
+          <button
+            className="btn btn-primary"
+            disabled={!agreed}
+            onClick={handleContinue}
+            style={{ opacity: agreed ? 1 : 0.6, cursor: agreed ? 'pointer' : 'not-allowed' }}
+          >
+            Continue to Registration
+          </button>
         </div>
       </div>
     </div>
