@@ -689,7 +689,6 @@ const generateMasterReport = () => {
         </div>
 
 
-
           {/* Patient Records Section */}
           <div className="glass-panel" style={{ padding: '1.5rem', overflowX: 'auto' }}>
             <h3 style={{ marginBottom: '1.5rem' }}>Patient Records</h3>
@@ -1052,12 +1051,12 @@ const generateMasterReport = () => {
                            >
                              Save Changes
                            </button>
-                         </div>
-                       </div>
-                     </div>
-                   )}
-                 </div>
-               );  // <-- Close the return statement
-             }      // <-- Close the Dashboard function
+                                       </div>
+                                     </div>
+                                   </div>
+                                 )}
+                               </div>
+                             );  // <-- Close the return statement
+                           }      // <-- Close the Dashboard function
 
-             export default Dashboard;  // <-- Export the component
+                           export default Dashboard;  // <-- Export the component
