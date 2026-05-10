@@ -590,6 +590,7 @@ const generateMasterReport = () => {
                   ))}
                 </>
               )}
+          </div>
             {/* Clinic Status Panel */}
             <div className="glass-panel" style={{ padding: '1.5rem' }}>
               <h3 style={{ marginBottom: '1rem', borderBottom: '1px solid var(--border)', paddingBottom: '0.5rem' }}>Clinic Status</h3>
