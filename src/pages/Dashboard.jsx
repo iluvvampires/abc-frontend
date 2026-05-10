@@ -1097,7 +1097,7 @@ const generateMasterReport = () => {
                     }}
                   >
                     <option value="">Select Category</option>
-                    <option value="Category 1">Category 1 (Non-exposure - No wound)</option>
+                    <option value="Category 1">Category 1 (No exposure - No wound)</option>
                     <option value="Category 2">Category 2 (Minor - Scratch/abrasion without bleeding)</option>
                     <option value="Category 3">Category 3 (Severe - Single/multiple transdermal bites/bleeding)</option>
                   </select>
