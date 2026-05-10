@@ -229,7 +229,7 @@ const handleCreateAccount = async (e) => {
       }
       return true;
     });
-  };git
+  };
 const generateClinicReport = (clinicId, clinicName) => {
   // Filter exposures to ONLY this clinic
   const clinicExposures = exposures.filter(e => e.clinic?.clinicId === clinicId);
