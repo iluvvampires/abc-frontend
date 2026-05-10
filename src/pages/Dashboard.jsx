@@ -708,22 +708,22 @@ const generateMasterReport = () => {
             ) : (
               <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.875rem', minWidth: '1200px' }}>
                 <thead>
-                  <tr style={{ borderBottom: '1px solid var(--border)', textAlign: 'left' }}>
-                    <th style={{ padding: '0.75rem' }}>Name</th>
-                    <th style={{ padding: '0.75rem' }}>Birthdate</th>
-                    <th style={{ padding: '0.75rem' }}>Age</th>
-                    <th style={{ padding: '0.75rem' }}>Gender</th>
-                    <th style={{ padding: '0.75rem' }}>Contact</th>
-                    <th style={{ padding: '0.75rem' }}>Full Address</th>
-                    <th style={{ padding: '0.75rem' }}>Exposure Date</th>
-                    <th style={{ padding: '0.75rem' }}>Place</th>
-                    <th style={{ padding: '0.75rem' }}>Type</th>
-                    <th style={{ padding: '0.75rem' }}>Animal</th>
-                    <th style={{ padding: '0.75rem' }}>Conditions</th>
-                    <th style={{ padding: '0.75rem' }}>Category</th>
-                    {user.role === 'ADMIN' && <th style={{ padding: '0.75rem' }}>Clinic</th>}
-                    <th style={{ padding: '0.75rem', textAlign: 'center' }}>Actions</th>
-                  </tr>
+                  <tr style={{ borderBottom: '2px solid #3b82f6', textAlign: 'left' }}>
+                    <th style={{ padding: '0.75rem', fontSize: '0.9rem', fontWeight: 'bold', color: '#1e40af' }}>Name</th>
+                    <th style={{ padding: '0.75rem', fontSize: '0.9rem', fontWeight: 'bold', color: '#1e40af' }}>Birthdate</th>
+                    <th style={{ padding: '0.75rem', fontSize: '0.9rem', fontWeight: 'bold', color: '#1e40af' }}>Age</th>
+                    <th style={{ padding: '0.75rem', fontSize: '0.9rem', fontWeight: 'bold', color: '#1e40af' }}>Gender</th>
+                    <th style={{ padding: '0.75rem', fontSize: '0.9rem', fontWeight: 'bold', color: '#1e40af' }}>Contact</th>
+                    <th style={{ padding: '0.75rem', fontSize: '0.9rem', fontWeight: 'bold', color: '#1e40af' }}>Full Address</th>
+                    <th style={{ padding: '0.75rem', fontSize: '0.9rem', fontWeight: 'bold', color: '#1e40af' }}>Exposure Date</th>
+                    <th style={{ padding: '0.75rem', fontSize: '0.9rem', fontWeight: 'bold', color: '#1e40af' }}>Place</th>
+                    <th style={{ padding: '0.75rem', fontSize: '0.9rem', fontWeight: 'bold', color: '#1e40af' }}>Type</th>
+                    <th style={{ padding: '0.75rem', fontSize: '0.9rem', fontWeight: 'bold', color: '#1e40af' }}>Animal</th>
+                    <th style={{ padding: '0.75rem', fontSize: '0.9rem', fontWeight: 'bold', color: '#1e40af' }}>Conditions</th>
+                    <th style={{ padding: '0.75rem', fontSize: '0.9rem', fontWeight: 'bold', color: '#1e40af' }}>Category</th>
+                    {user.role === 'ADMIN' && <th style={{ padding: '0.75rem', fontSize: '0.9rem', fontWeight: 'bold', color: '#1e40af' }}>Clinic</th>}
+                    <th style={{ padding: '0.75rem', fontSize: '0.9rem', fontWeight: 'bold', color: '#1e40af', textAlign: 'center' }}>Actions</th>
+                   </tr>
                 </thead>
                 <tbody>
                   {exposures
@@ -731,47 +731,127 @@ const generateMasterReport = () => {
                       const searchString = `${exp.patient?.firstName} ${exp.patient?.lastName} ${exp.patient?.contactNumber} ${exp.patient?.city}`.toLowerCase();
                       return searchString.includes(searchTerm.toLowerCase());
                     })
-                    .map(exp => (
-                      <tr key={exp.id} style={{ borderBottom: '1px solid rgba(0,0,0,0.05)' }}>
-                        <td style={{ padding: '0.75rem', fontWeight: '500' }}>{`${exp.patient?.firstName || ''} ${exp.patient?.lastName || ''}`}</td>
-                        <td style={{ padding: '0.75rem' }}>{exp.patient?.birthdate || 'N/A'}</td>
-                        <td style={{ padding: '0.75rem' }}>{exp.patient?.age || 'N/A'}</td>
-                        <td style={{ padding: '0.75rem' }}>{exp.patient?.gender || 'N/A'}</td>
-                        <td style={{ padding: '0.75rem' }}>{exp.patient?.contactNumber || 'N/A'}</td>
-                        <td style={{ padding: '1rem 1rem', whiteSpace: 'normal', minWidth: '300px' }}>{`${exp.patient.streetAddress}, ${exp.patient.barangay}, ${exp.patient.city}, ${exp.patient.province}`}</td>
-                                              <td style={{ padding: '1rem 1rem' }}>{exp.exposureDate ? exp.exposureDate : <span style={{ color: 'var(--danger)', fontStyle: 'italic', fontWeight: 'bold' }}>Pending</span>}</td>
-                                              <td style={{ padding: '1rem 1rem', whiteSpace: 'normal', minWidth: '150px' }}>{exp.placeOfExposure ? exp.placeOfExposure : <span style={{ color: 'var(--danger)', fontStyle: 'italic', fontWeight: 'bold' }}>Pending</span>}</td>
-                                              <td style={{ padding: '1rem 1rem' }}>{exp.exposureType ? exp.exposureType : <span style={{ color: 'var(--danger)', fontStyle: 'italic', fontWeight: 'bold' }}>Pending</span>}</td>
-                                              <td style={{ padding: '1rem 1rem' }}>
-                                                {exp.animalType ? (exp.animalType === 'Others' && exp.otherAnimalSpecify ? exp.otherAnimalSpecify : exp.animalType) : <span style={{ color: 'var(--danger)', fontStyle: 'italic', fontWeight: 'bold' }}>Pending</span>}
-                                              </td>
-                                              <td style={{ padding: '1rem 1rem', whiteSpace: 'normal', minWidth: '200px' }}>
-                                                {exp.animalConditions && exp.animalConditions.length > 0
-                                                  ? Array.from(new Set(exp.animalConditions.map(c => typeof c === 'string' ? c : c.conditionName))).filter(c => c && c.trim() !== '').join(', ')
-                                                  : <span style={{ color: 'var(--danger)', fontStyle: 'italic', fontWeight: 'bold' }}>Pending</span>}
-                                              </td>
-                                              <td style={{ padding: '1rem 1rem' }}>
-                                                {exp.biteCategory ? (
-                                                  <span style={{ backgroundColor: 'rgba(37,99,235,0.1)', color: '#1e40af', padding: '0.4rem 0.8rem', borderRadius: '50px', fontWeight: '600', fontSize: '0.75rem' }}>
-                                                    {exp.biteCategory.replace('Category ', 'CAT ')}
-                                                  </span>
-                                                ) : (
-                                                  <span style={{ color: 'var(--danger)', fontStyle: 'italic', fontWeight: 'bold' }}>Pending</span>
-                                                )}
-                                              </td>
-                        {user.role === 'ADMIN' && <td style={{ padding: '0.75rem' }}>{exp.clinic?.name || 'N/A'}</td>}
-                        <td style={{ padding: '0.75rem', textAlign: 'center' }}>
+                    .map((exp, index) => (
+                      <tr
+                        key={exp.id}
+                        style={{
+                          backgroundColor: index % 2 === 0 ? '#ffffff' : '#f8fafc',
+                          borderBottom: '1px solid #e2e8f0',
+                          transition: 'background-color 0.2s ease'
+                        }}
+                        onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f1f5f9'}
+                        onMouseLeave={(e) => e.currentTarget.style.backgroundColor = index % 2 === 0 ? '#ffffff' : '#f8fafc'}
+                      >
+                        <td style={{ padding: '0.9rem 0.75rem', fontWeight: '500', whiteSpace: 'nowrap', color: '#1e293b' }}>
+                          {`${exp.patient?.firstName || ''} ${exp.patient?.lastName || ''}`}
+                        </td>
+                        <td style={{ padding: '0.9rem 0.75rem', whiteSpace: 'nowrap', color: '#475569' }}>
+                          {exp.patient?.birthdate || 'N/A'}
+                        </td>
+                        <td style={{ padding: '0.9rem 0.75rem', whiteSpace: 'nowrap', color: '#475569' }}>
+                          {exp.patient?.age || 'N/A'}
+                        </td>
+                        <td style={{ padding: '0.9rem 0.75rem', whiteSpace: 'nowrap', color: '#475569' }}>
+                          {exp.patient?.gender || 'N/A'}
+                        </td>
+                        <td style={{ padding: '0.9rem 0.75rem', whiteSpace: 'nowrap', color: '#475569' }}>
+                          {exp.patient?.contactNumber || 'N/A'}
+                        </td>
+                        <td style={{ padding: '0.9rem 0.75rem', minWidth: '250px', color: '#475569' }}>
+                          {`${exp.patient?.streetAddress || ''}, ${exp.patient?.barangay || ''}, ${exp.patient?.city || ''}, ${exp.patient?.province || ''}`}
+                        </td>
+                        <td style={{ padding: '0.9rem 0.75rem', whiteSpace: 'nowrap' }}>
+                          {exp.exposureDate ? (
+                            <span style={{ color: '#475569' }}>{exp.exposureDate}</span>
+                          ) : (
+                            <span style={{ color: '#ef4444', fontStyle: 'italic', fontWeight: '500' }}>Pending</span>
+                          )}
+                        </td>
+                        <td style={{ padding: '0.9rem 0.75rem', minWidth: '150px', color: '#475569' }}>
+                          {exp.placeOfExposure || <span style={{ color: '#ef4444', fontStyle: 'italic', fontWeight: '500' }}>Pending</span>}
+                        </td>
+                        <td style={{ padding: '0.9rem 0.75rem', whiteSpace: 'nowrap' }}>
+                          {exp.exposureType ? (
+                            <span style={{
+                              backgroundColor: '#e0e7ff',
+                              color: '#3730a3',
+                              padding: '0.25rem 0.6rem',
+                              borderRadius: '20px',
+                              fontSize: '0.75rem',
+                              fontWeight: '500'
+                            }}>
+                              {exp.exposureType}
+                            </span>
+                          ) : (
+                            <span style={{ color: '#ef4444', fontStyle: 'italic', fontWeight: '500' }}>Pending</span>
+                          )}
+                        </td>
+                        <td style={{ padding: '0.9rem 0.75rem', whiteSpace: 'nowrap', color: '#475569' }}>
+                          {exp.animalType ? (exp.animalType === 'Others' && exp.otherAnimalSpecify ? exp.otherAnimalSpecify : exp.animalType) : <span style={{ color: '#ef4444', fontStyle: 'italic', fontWeight: '500' }}>Pending</span>}
+                        </td>
+                        <td style={{ padding: '0.9rem 0.75rem', minWidth: '200px', color: '#475569' }}>
+                          {exp.animalConditions && exp.animalConditions.length > 0
+                            ? [...new Set(exp.animalConditions.map(c => typeof c === 'string' ? c : c.conditionName))].filter(c => c && c.trim() !== '').join(', ')
+                            : <span style={{ color: '#ef4444', fontStyle: 'italic', fontWeight: '500' }}>Pending</span>}
+                        </td>
+                        <td style={{ padding: '0.9rem 0.75rem', whiteSpace: 'nowrap' }}>
+                          {exp.biteCategory ? (
+                            <span style={{
+                              backgroundColor: '#dbeafe',
+                              color: '#1e40af',
+                              padding: '0.3rem 0.75rem',
+                              borderRadius: '30px',
+                              fontWeight: '600',
+                              fontSize: '0.7rem',
+                              letterSpacing: '0.5px'
+                            }}>
+                              {exp.biteCategory.replace('Category ', 'CAT ')}
+                            </span>
+                          ) : (
+                            <span style={{ color: '#ef4444', fontStyle: 'italic', fontWeight: '500' }}>Pending</span>
+                          )}
+                        </td>
+                        {user.role === 'ADMIN' && (
+                          <td style={{ padding: '0.9rem 0.75rem', whiteSpace: 'nowrap', color: '#475569' }}>
+                            {exp.clinic?.name || 'N/A'}
+                          </td>
+                        )}
+                        <td style={{ padding: '0.9rem 0.75rem', textAlign: 'center' }}>
                           <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'center' }}>
                             <button
                               onClick={() => handleUpdateClick(exp)}
-                              style={{ background: '#2563eb', color: 'white', border: 'none', padding: '0.4rem 0.8rem', borderRadius: '4px', cursor: 'pointer' }}
+                              style={{
+                                background: '#3b82f6',
+                                color: 'white',
+                                border: 'none',
+                                padding: '0.35rem 0.9rem',
+                                borderRadius: '6px',
+                                cursor: 'pointer',
+                                fontSize: '0.75rem',
+                                fontWeight: '500',
+                                transition: 'background 0.2s'
+                              }}
+                              onMouseEnter={(e) => e.currentTarget.style.background = '#2563eb'}
+                              onMouseLeave={(e) => e.currentTarget.style.background = '#3b82f6'}
                             >
                               Edit
                             </button>
                             {user.role === 'ADMIN' && (
                               <button
                                 onClick={() => handleDelete(exp.id)}
-                                style={{ background: '#ef4444', color: 'white', border: 'none', padding: '0.4rem 0.8rem', borderRadius: '4px', cursor: 'pointer' }}
+                                style={{
+                                  background: '#ef4444',
+                                  color: 'white',
+                                  border: 'none',
+                                  padding: '0.35rem 0.9rem',
+                                  borderRadius: '6px',
+                                  cursor: 'pointer',
+                                  fontSize: '0.75rem',
+                                  fontWeight: '500',
+                                  transition: 'background 0.2s'
+                                }}
+                                onMouseEnter={(e) => e.currentTarget.style.background = '#dc2626'}
+                                onMouseLeave={(e) => e.currentTarget.style.background = '#ef4444'}
                               >
                                 Delete
                               </button>
