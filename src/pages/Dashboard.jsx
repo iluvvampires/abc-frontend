@@ -164,42 +164,54 @@ function Dashboard() {
     }
   };
 
-  const handleSignupChange = (e) => {
-    setSignupData({ ...signupData, [e.target.name]: e.target.value });
-  };
+const handleSignupChange = (e) => {
+    const { name, value } = e.target;
+    setSignupData(prev => ({
+        ...prev,
+        [name]: value
+    }));
+};
 
-  const handleCreateAccount = async (e) => {
+const handleCreateAccount = async (e) => {
     e.preventDefault();
     setSignupMsg(null);
 
     try {
-      if (signupData.username.length < 4 || signupData.username.length > 20) {
-        setSignupMsg({ text: 'Username must be between 4 and 20 characters', type: 'error' });
-        return;
-      }
-      if (signupData.password.length < 8) {
-        setSignupMsg({ text: 'Password must be at least 8 characters', type: 'error' });
-        return;
-      }
-      if (signupData.password !== signupData.confirmPassword) {
-        setSignupMsg({ text: 'Passwords do not match', type: 'error' });
-        return;
-      }
+        if (signupData.username.length < 4 || signupData.username.length > 20) {
+            setSignupMsg({ text: 'Username must be between 4 and 20 characters', type: 'error' });
+            return;
+        }
+        if (signupData.password.length < 8) {
+            setSignupMsg({ text: 'Password must be at least 8 characters', type: 'error' });
+            return;
+        }
+        if (signupData.password !== signupData.confirmPassword) {
+            setSignupMsg({ text: 'Passwords do not match', type: 'error' });
+            return;
+        }
 
-      const payload = {
-        username: signupData.username,
-        password: signupData.password,
-        role: signupData.role,
-        clinicId: signupData.role === 'EMPLOYEE' ? Number(signupData.clinicId) : null
-      };
+        // FIX: Make sure clinicId is sent as a number, not string
+        const payload = {
+            username: signupData.username,
+            password: signupData.password,
+            role: signupData.role,
+            clinicId: signupData.role === 'EMPLOYEE' ? parseInt(signupData.clinicId, 10) : null
+        };
 
-      await axios.post('https://abc-backend-4.onrender.com/api/auth/signup', payload);
-      setSignupMsg({ text: 'Account created successfully!', type: 'success' });
-      setSignupData({ username: '', password: '', confirmPassword: '', role: 'EMPLOYEE', clinicId: '' });
+        console.log('Payload being sent:', payload);  // DEBUG: Check what's being sent
+
+        await axios.post('https://abc-backend-4.onrender.com/api/auth/signup', payload);
+        setSignupMsg({ text: 'Account created successfully!', type: 'success' });
+        setSignupData({ username: '', password: '', confirmPassword: '', role: 'EMPLOYEE', clinicId: '' });
+
+        // Refresh the clinics list or user data
+        fetchData(user);
+
     } catch (err) {
-      setSignupMsg({ text: err.response?.data?.message || 'Failed to create account', type: 'error' });
+        console.error('Signup error:', err.response?.data);
+        setSignupMsg({ text: err.response?.data?.message || 'Failed to create account', type: 'error' });
     }
-  };
+};
 
   const filterDataByTimeframe = (data, type) => {
     const now = new Date();
@@ -677,10 +689,20 @@ const generateMasterReport = () => {
                     <option value="ADMIN">Admin</option>
                   </select>
                   {signupData.role === 'EMPLOYEE' && (
-                    <select className="form-control" name="clinicId" value={signupData.clinicId} onChange={handleSignupChange} required>
-                      <option value="">Select Assigned Clinic</option>
-                      {clinics.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
-                    </select>
+                      <select
+                          className="form-control"
+                          name="clinicId"
+                          value={signupData.clinicId}
+                          onChange={handleSignupChange}
+                          required
+                      >
+                          <option value="">Select Assigned Clinic</option>
+                          {clinics.map(c => (
+                              <option key={c.clinicId} value={c.clinicId}>
+                                  {c.name}
+                              </option>
+                          ))}
+                      </select>
                   )}
                   <button type="submit" className="btn btn-primary" style={{ width: '100%' }}>Create Account</button>
                 </form>
