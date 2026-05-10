@@ -323,26 +323,48 @@ const attemptSubmit = (e) => {
          </div>
 
           <div className="grid grid-cols-3">
-            <div className="form-group">
-              <label>Birthdate <span style={{ color: 'red' }}>*</span></label>
-              <input
-                type="date"
-                className="form-control"
-                name="birthdate"
-                value={formData.birthdate}
-                onChange={handleBirthdateChange}
-                max={new Date().toISOString().split("T")[0]}
-                style={{ accentColor: '#2563eb', // Sets the max date to today
-                position: 'relative',
-                        zIndex: 50
-                        }}
-                required
-              />
-            </div>
-            <div className="form-group">
-              <label>Age (Auto-computed)</label>
-              <input type="text" className="form-control" value={calculateAge()} disabled style={{ backgroundColor: 'rgba(0,0,0,0.3)', color: 'var(--text-muted)' }} />
-            </div>
+                      <div className="form-group">
+                        <label>Birthdate <span style={{ color: 'var(--danger)' }}>*</span></label>
+                        <div style={{ width: '100%', position: 'relative' }}>
+                          <DatePicker
+                            selected={formData.birthdate ? new Date(formData.birthdate) : null}
+                            onChange={handleBirthdateChange}
+                            maxDate={new Date()}
+                            showYearDropdown
+                            showMonthDropdown
+                            dropdownMode="select"
+                            className="form-control"
+                            placeholderText="mm/dd/yyyy"
+                            dateFormat="MM/dd/yyyy"
+                            strictParsing
+                            customInput={
+                              <input
+                                maxLength="10"
+                                onInput={(e) => {
+                                  e.target.value = e.target.value.replace(/[^0-9/]/g, '');
+                                }}
+                              />
+                            }
+                            required
+                          />
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="20" height="20"
+                            viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+                            style={{ position: 'absolute', right: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--primary)', pointerEvents: 'none' }}
+                          >
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                            <line x1="16" y1="2" x2="16" y2="6"></line>
+                            <line x1="8" y1="2" x2="8" y2="6"></line>
+                            <line x1="3" y1="10" x2="21" y2="10"></line>
+                          </svg>
+                        </div>
+                      </div>
+                      <div className="form-group">
+                        <label>Age (Auto-computed)</label>
+                        <input type="text" className="form-control" value={calculateAge()} disabled style={{ backgroundColor: 'rgba(59, 130, 246, 0.1)', color: '#1e40af', fontWeight: 'bold', border: '1px solid rgba(59, 130, 246, 0.3)' }} />
+                      </div>
             <div className="form-group">
               <label>Gender <span style={{ color: 'red' }}>*</span></label>
               <select className="form-control" name="gender" value={formData.gender} onChange={handleChange} required>
