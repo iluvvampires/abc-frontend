@@ -669,35 +669,31 @@ const generateMasterReport = () => {
             )}
           </div>
 
-          <div style={{
-            backgroundColor: 'white',
-            padding: '1rem',
-            borderRadius: '12px',
-            marginBottom: '1.5rem',
-            border: '1px solid #e2e8f0',
-            boxShadow: '0 1px 2px rgba(0,0,0,0.05)'
-          }}>
-            <input
-              type="text"
-              placeholder="Search by name, contact, or address..."
-              className="form-control"
-              style={{
-                width: '100%',
-                padding: '0.75rem',
-                border: '1px solid #cbd5e1',
-                borderRadius: '8px',
-                fontSize: '0.875rem'
-              }}
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
+          {/* Patient Records Section */}
+
+        {/* Main Content - Right Column */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', minWidth: 0 }}>
+
+          {/* Global Search Panel - Aligned and same width as Patient Records */}
+          <div className="glass-panel" style={{ padding: '1.5rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: 'var(--primary)' }}><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Search patient records by name or contact number..."
+                value={searchQuery}
+                onChange={e => setSearchQuery(e.target.value)}
+                style={{ flex: 1, fontSize: '1rem', padding: '0.75rem', border: '1px solid rgba(59, 130, 246, 0.3)', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.02)' }}
+              />
+            </div>
           </div>
 
-          {/* Patient Records Section */}
-          <div className="glass-panel" style={{ padding: '1.5rem', overflowX: 'auto' }}>
-            <h3 style={{ marginBottom: '1.5rem' }}>Patient Records</h3>
-
-
+          {/* Patient Records Panel */}
+          <div className="glass-panel" style={{ padding: '2rem', overflowX: 'auto', width: '100%', flex: 1 }}>
+            <div style={{ marginBottom: '1.5rem' }}>
+              <h3 style={{ margin: 0, color: '#1e40af' }}>Patient Records</h3>
+            </div>
 
             {exposures.length === 0 ? (
               <p style={{ color: 'var(--text-muted)', textAlign: 'center', padding: '2rem' }}>No patient records found.</p>
