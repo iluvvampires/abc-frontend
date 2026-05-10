@@ -714,9 +714,12 @@ const generateMasterReport = () => {
                     <th style={{ padding: '0.75rem' }}>Age</th>
                     <th style={{ padding: '0.75rem' }}>Gender</th>
                     <th style={{ padding: '0.75rem' }}>Contact</th>
-                    <th style={{ padding: '0.75rem' }}>Address</th>
+                    <th style={{ padding: '0.75rem' }}>Full Address</th>
                     <th style={{ padding: '0.75rem' }}>Exposure Date</th>
+                    <th style={{ padding: '0.75rem' }}>Place</th>
+                    <th style={{ padding: '0.75rem' }}>Type</th>
                     <th style={{ padding: '0.75rem' }}>Animal</th>
+                    <th style={{ padding: '0.75rem' }}>Conditions</th>
                     <th style={{ padding: '0.75rem' }}>Category</th>
                     {user.role === 'ADMIN' && <th style={{ padding: '0.75rem' }}>Clinic</th>}
                     <th style={{ padding: '0.75rem', textAlign: 'center' }}>Actions</th>
@@ -735,18 +738,27 @@ const generateMasterReport = () => {
                         <td style={{ padding: '0.75rem' }}>{exp.patient?.age || 'N/A'}</td>
                         <td style={{ padding: '0.75rem' }}>{exp.patient?.gender || 'N/A'}</td>
                         <td style={{ padding: '0.75rem' }}>{exp.patient?.contactNumber || 'N/A'}</td>
-                        <td style={{ padding: '0.75rem' }}>{`${exp.patient?.barangay || ''}, ${exp.patient?.city || ''}`}</td>
-                        <td style={{ padding: '0.75rem' }}>{exp.exposureDate || 'N/A'}</td>
-                        <td style={{ padding: '0.75rem' }}>{exp.animalType || 'N/A'}</td>
-                        <td style={{ padding: '0.75rem', whiteSpace: 'nowrap' }}>
-                          {exp.biteCategory ? (
-                            <span style={{ backgroundColor: '#dbeafe', color: '#2563eb', padding: '0.25rem 0.75rem', borderRadius: '20px', fontSize: '0.75rem' }}>
-                              {exp.biteCategory}
-                            </span>
-                          ) : (
-                            <span style={{ color: '#ef4444', fontStyle: 'italic' }}>Pending</span>
-                          )}
-                        </td>
+                        <td style={{ padding: '1rem 1rem', whiteSpace: 'normal', minWidth: '300px' }}>{`${exp.patient.streetAddress}, ${exp.patient.barangay}, ${exp.patient.city}, ${exp.patient.province}`}</td>
+                                              <td style={{ padding: '1rem 1rem' }}>{exp.exposureDate ? exp.exposureDate : <span style={{ color: 'var(--danger)', fontStyle: 'italic', fontWeight: 'bold' }}>Pending</span>}</td>
+                                              <td style={{ padding: '1rem 1rem', whiteSpace: 'normal', minWidth: '150px' }}>{exp.placeOfExposure ? exp.placeOfExposure : <span style={{ color: 'var(--danger)', fontStyle: 'italic', fontWeight: 'bold' }}>Pending</span>}</td>
+                                              <td style={{ padding: '1rem 1rem' }}>{exp.exposureType ? exp.exposureType : <span style={{ color: 'var(--danger)', fontStyle: 'italic', fontWeight: 'bold' }}>Pending</span>}</td>
+                                              <td style={{ padding: '1rem 1rem' }}>
+                                                {exp.animalType ? (exp.animalType === 'Others' && exp.otherAnimalSpecify ? exp.otherAnimalSpecify : exp.animalType) : <span style={{ color: 'var(--danger)', fontStyle: 'italic', fontWeight: 'bold' }}>Pending</span>}
+                                              </td>
+                                              <td style={{ padding: '1rem 1rem', whiteSpace: 'normal', minWidth: '200px' }}>
+                                                {exp.animalConditions && exp.animalConditions.length > 0
+                                                  ? Array.from(new Set(exp.animalConditions.map(c => typeof c === 'string' ? c : c.conditionName))).filter(c => c && c.trim() !== '').join(', ')
+                                                  : <span style={{ color: 'var(--danger)', fontStyle: 'italic', fontWeight: 'bold' }}>Pending</span>}
+                                              </td>
+                                              <td style={{ padding: '1rem 1rem' }}>
+                                                {exp.biteCategory ? (
+                                                  <span style={{ backgroundColor: 'rgba(37,99,235,0.1)', color: '#1e40af', padding: '0.4rem 0.8rem', borderRadius: '50px', fontWeight: '600', fontSize: '0.75rem' }}>
+                                                    {exp.biteCategory.replace('Category ', 'CAT ')}
+                                                  </span>
+                                                ) : (
+                                                  <span style={{ color: 'var(--danger)', fontStyle: 'italic', fontWeight: 'bold' }}>Pending</span>
+                                                )}
+                                              </td>
                         {user.role === 'ADMIN' && <td style={{ padding: '0.75rem' }}>{exp.clinic?.name || 'N/A'}</td>}
                         <td style={{ padding: '0.75rem', textAlign: 'center' }}>
                           <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'center' }}>
