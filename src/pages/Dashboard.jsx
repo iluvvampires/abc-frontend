@@ -688,53 +688,7 @@ const generateMasterReport = () => {
           )}
         </div>
 
-        {/* Main Content Area */}
-        <div style={{ flex: 1, minWidth: 0 }}>
 
-                {/* Pending Assessments Section */}
-                <div className="glass-panel" style={{ padding: '1.5rem', marginBottom: '2rem' }}>
-                  <h3 style={{ marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                    <span style={{ color: '#2563eb', fontWeight: 'bold' }}>|</span>
-                    Pending Medical Assessments ({pendingAssessments.length})
-                  </h3>
-
-                  {pendingAssessments.length === 0 ? (
-                    <p style={{ color: 'var(--text-muted)', textAlign: 'center', padding: '2rem' }}>
-                      No pending assessments. All patients are recorded! 🎉
-                    </p>
-                  ) : (
-                    <div style={{ overflowX: 'auto' }}>
-                      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-                        <thead>
-                          <tr style={{ borderBottom: '1px solid var(--border)', textAlign: 'left' }}>
-                            <th style={{ padding: '0.75rem' }}>Patient Name</th>
-                            <th style={{ padding: '0.75rem' }}>Contact Number</th>
-                            <th style={{ padding: '0.75rem' }}>Status</th>
-                            <th style={{ padding: '0.75rem', textAlign: 'center' }}>Action</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {pendingAssessments.map(exp => (
-                            <tr key={exp.id} style={{ borderBottom: '1px solid rgba(0,0,0,0.05)' }}>
-                              <td style={{ padding: '0.75rem' }}>{`${exp.patient?.firstName || ''} ${exp.patient?.lastName || ''}`}</td>
-                              <td style={{ padding: '0.75rem' }}>{exp.patient?.contactNumber || 'N/A'}</td>
-                              <td style={{ padding: '0.75rem' }}>
-                                <span style={{ color: '#ef4444', fontWeight: '500', backgroundColor: '#fee2e2', padding: '0.25rem 0.5rem', borderRadius: '20px', fontSize: '0.75rem' }}>
-                                  Pending
-                                </span>
-                              </td>
-                              <td style={{ padding: '0.75rem', textAlign: 'center' }}>
-                                <button onClick={() => handleUpdateClick(exp)} style={{ background: '#2563eb', color: 'white', border: 'none', padding: '0.5rem 1rem', borderRadius: '6px', cursor: 'pointer' }}>
-                                  Assess
-                                </button>
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  )}
-                </div>
 
           {/* Patient Records Section */}
           <div className="glass-panel" style={{ padding: '1.5rem', overflowX: 'auto' }}>
