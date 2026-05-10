@@ -669,20 +669,35 @@ const generateMasterReport = () => {
             )}
           </div>
 
+          <div style={{
+            backgroundColor: 'white',
+            padding: '1rem',
+            borderRadius: '12px',
+            marginBottom: '1.5rem',
+            border: '1px solid #e2e8f0',
+            boxShadow: '0 1px 2px rgba(0,0,0,0.05)'
+          }}>
+            <input
+              type="text"
+              placeholder="Search by name, contact, or address..."
+              className="form-control"
+              style={{
+                width: '100%',
+                padding: '0.75rem',
+                border: '1px solid #cbd5e1',
+                borderRadius: '8px',
+                fontSize: '0.875rem'
+              }}
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
+
           {/* Patient Records Section */}
           <div className="glass-panel" style={{ padding: '1.5rem', overflowX: 'auto' }}>
             <h3 style={{ marginBottom: '1.5rem' }}>Patient Records</h3>
 
-            <div style={{ marginBottom: '1rem' }}>
-              <input
-                type="text"
-                placeholder="Search by name, contact, or address..."
-                className="form-control"
-                style={{ maxWidth: '300px' }}
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-            </div>
+
 
             {exposures.length === 0 ? (
               <p style={{ color: 'var(--text-muted)', textAlign: 'center', padding: '2rem' }}>No patient records found.</p>
