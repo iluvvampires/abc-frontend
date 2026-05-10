@@ -119,35 +119,28 @@ const handleNameChange = (e) => {
     [name]: cleanValue
   });
 };
-const handleBirthdateChange = (e) => {
-  const dob = e.target.value;
-  if (!dob) return;
+  const handleBirthdateChange = (date) => {
+    if (!date) {
+      setFormData({ ...formData, birthdate: '' });
+      return;
+    }
 
-  const birthDate = new Date(dob);
-  const today = new Date();
+    const today = new Date();
 
-  // 1. Check if the date is in the future
-  if (birthDate > today) {
-    alert("Birthdate cannot be in the future!");
-    setFormData({ ...formData, birthdate: '', age: '' });
-    return;
-  }
+    // Validate if date is in the future
+    if (date > today) {
+      alert("Birthdate cannot be in the future! Please enter a valid date.");
+      setFormData({ ...formData, birthdate: '' });
+      return;
+    }
 
-  // 2. Calculate Age
-  let age = today.getFullYear() - birthDate.getFullYear();
-  const m = today.getMonth() - birthDate.getMonth();
+    // Format to YYYY-MM-DD
+    const offset = date.getTimezoneOffset();
+    const localDate = new Date(date.getTime() - (offset*60*1000));
+    const dob = localDate.toISOString().split('T')[0];
 
-  // Adjust if the birthday hasn't happened yet this year
-  if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-    age--;
-  }
-
-  setFormData({
-    ...formData,
-    birthdate: dob,
-    age: age >= 0 ? age : 0 // Ensure it's never negative
-  });
-};
+    setFormData({ ...formData, birthdate: dob });
+  };
 const handleContactChange = (e) => {
   const { name, value } = e.target;
 
@@ -419,6 +412,7 @@ const attemptSubmit = (e) => {
                          <label>Age (Auto-computed)</label>
                          <input type="text" className="form-control" value={calculateAge()} disabled style={{ backgroundColor: 'rgba(59, 130, 246, 0.1)', color: '#1e40af', fontWeight: 'bold', border: '1px solid rgba(59, 130, 246, 0.3)' }} />
                        </div>
+
                        <div className="form-group">
                          <label>Gender <span style={{ color: 'var(--danger)' }}>*</span></label>
                          <select className="form-control" name="gender" value={formData.gender} onChange={handleChange} required>
