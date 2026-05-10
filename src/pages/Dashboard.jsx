@@ -123,7 +123,7 @@ function Dashboard() {
      const payload = {
        exposureDate: editingPatient.exposureDate,
        animalType: editingPatient.animalType,
-       otherAnimalSpecify: editingPatient.animalType === "Other" ? editingPatient.otherAnimalSpecify
+       otherAnimalSpecify: editingPatient.animalType === "Other" ? editingPatient.otherAnimalSpecify,
        biteCategory: editingPatient.biteCategory,
        exposureType: editingPatient.exposureType,  // This will be "Bite", "Scratch", or "Other"
        placeOfExposure: editingPatient.placeOfExposure,
