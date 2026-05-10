@@ -526,57 +526,57 @@ const generateMasterReport = () => {
 
   const pendingAssessments = exposures.filter(exp => !exp.biteCategory || exp.biteCategory === "" || exp.biteCategory === null);
 
-  if (loading) {
+    if (loading) {
+      return (
+        <div className="container" style={{ textAlign: 'center', marginTop: '4rem' }}>
+          <div className="glass-panel" style={{ padding: '3rem' }}>
+            <h2>Loading Dashboard...</h2>
+          </div>
+        </div>
+      );
+    }
+
+    if (error) {
+      return (
+        <div className="container" style={{ textAlign: 'center', marginTop: '4rem' }}>
+          <div className="glass-panel" style={{ padding: '3rem', backgroundColor: 'rgba(239, 68, 68, 0.1)', border: '1px solid var(--danger)' }}>
+            <h3 style={{ color: 'var(--danger)' }}>Error Loading Dashboard</h3>
+            <p>{error}</p>
+            <button className="btn btn-primary" onClick={() => window.location.reload()}>Retry</button>
+          </div>
+        </div>
+      );
+    }
+
+    if (!user) return null;
+
     return (
-      <div className="container" style={{ textAlign: 'center', marginTop: '4rem' }}>
-        <div className="glass-panel" style={{ padding: '3rem' }}>
-          <h2>Loading Dashboard...</h2>
+      <div className="container" style={{ maxWidth: '1400px', margin: '0 auto', padding: '2rem' }}>
+        {/* Header */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+          <div>
+            <h2 className="text-gradient" style={{ fontSize: '2rem' }}>Employee Dashboard</h2>
+            <p style={{ color: 'var(--text-muted)' }}>
+              Logged in as: <strong>{user.username}</strong> ({user.role})
+            </p>
+          </div>
+          <button
+            className="btn btn-primary"
+            style={{ backgroundColor: 'var(--danger)', color: 'white', border: 'none', padding: '0.75rem 1.5rem' }}
+            onClick={handleLogout}
+          >
+            Log Out
+          </button>
         </div>
-      </div>
-    );
-  }
 
-  if (error) {
-    return (
-      <div className="container" style={{ textAlign: 'center', marginTop: '4rem' }}>
-        <div className="glass-panel" style={{ padding: '3rem', backgroundColor: 'rgba(239, 68, 68, 0.1)', border: '1px solid var(--danger)' }}>
-          <h3 style={{ color: 'var(--danger)' }}>Error Loading Dashboard</h3>
-          <p>{error}</p>
-          <button className="btn btn-primary" onClick={() => window.location.reload()}>Retry</button>
-        </div>
-      </div>
-    );
-  }
+        {/* Main Grid Layout */}
+        <div style={{ display: 'grid', gridTemplateColumns: '300px 1fr', gap: '2rem' }}>
 
-  if (!user) return null;
+          {/* Sidebar */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
 
-  return (
-    <div className="container" style={{ maxWidth: '1400px', margin: '0 auto', padding: '2rem' }}>
-      {/* Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
-        <div>
-          <h2 className="text-gradient" style={{ fontSize: '2rem' }}>Employee Dashboard</h2>
-          <p style={{ color: 'var(--text-muted)' }}>
-            Logged in as: <strong>{user.username}</strong> ({user.role})
-          </p>
-        </div>
-        <button
-          className="btn btn-primary"
-          style={{ backgroundColor: 'var(--danger)', color: 'white', border: 'none', padding: '0.75rem 1.5rem' }}
-          onClick={handleLogout}
-        >
-          Log Out
-        </button>
-      </div>
-
-      {/* Main Grid Layout */}
-      <div style={{ display: 'grid', gridTemplateColumns: '300px 1fr', gap: '2rem' }}>
-
-        {/* Sidebar */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-
-          {/* Reports Panel */}
-          <div className="glass-panel" style={{ padding: '1.5rem', marginBottom: '1.5rem' }}>
+            {/* Reports Panel */}
+            <div className="glass-panel" style={{ padding: '1.5rem', marginBottom: '1.5rem' }}>
               <h3 style={{ marginBottom: '1rem', borderBottom: '1px solid var(--border)', paddingBottom: '0.5rem' }}>Reports</h3>
 
               <div style={{ marginBottom: '1rem' }}>
@@ -622,72 +622,71 @@ const generateMasterReport = () => {
               )}
             </div>
 
-          {/* Clinic Status Panel */}
-          <div className="glass-panel" style={{ padding: '1.5rem' }}>
-            <h3 style={{ marginBottom: '1rem', borderBottom: '1px solid var(--border)', paddingBottom: '0.5rem' }}>Clinic Status</h3>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-              {clinics.map(clinic => {
-                if (user.role === 'EMPLOYEE' && clinic.id !== user.clinicId) return null;
-                return (
-                  <div key={clinic.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0.75rem', backgroundColor: 'rgba(37, 99, 235, 0.1)', borderRadius: '8px' }}>
-                    <span style={{ fontSize: '0.875rem', fontWeight: 'bold' }}>{clinic.name}</span>
-                    <button
-                      onClick={() => toggleClinicStatus(clinic.id)}
-                      style={{
-                        padding: '0.25rem 0.75rem',
-                        borderRadius: '20px',
-                        border: 'none',
-                        cursor: 'pointer',
-                        backgroundColor: clinic.isOpen ? '#10b981' : '#ef4444',
-                        color: 'white',
-                        fontWeight: 'bold',
-                        fontSize: '0.75rem'
-                      }}
-                    >
-                      {clinic.isOpen ? 'OPEN' : 'CLOSED'}
-                    </button>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Admin Signup Panel */}
-          {user.role === 'ADMIN' && (
+            {/* Clinic Status Panel */}
             <div className="glass-panel" style={{ padding: '1.5rem' }}>
-              <h3 style={{ marginBottom: '1rem', borderBottom: '1px solid var(--border)', paddingBottom: '0.5rem' }}>Create Account</h3>
-              {signupMsg && (
-                <div style={{
-                  backgroundColor: signupMsg.type === 'success' ? 'rgba(16, 185, 129, 0.1)' : 'rgba(239, 68, 68, 0.1)',
-                  color: signupMsg.type === 'success' ? 'var(--secondary)' : 'var(--danger)',
-                  padding: '0.75rem',
-                  borderRadius: '4px',
-                  marginBottom: '1rem',
-                  fontSize: '0.875rem'
-                }}>
-                  {signupMsg.text}
-                </div>
-              )}
-              <form onSubmit={handleCreateAccount} style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                <input type="text" className="form-control" name="username" placeholder="Username" value={signupData.username} onChange={handleSignupChange} required />
-                <input type="password" className="form-control" name="password" placeholder="Password" value={signupData.password} onChange={handleSignupChange} required />
-                <input type="password" className="form-control" name="confirmPassword" placeholder="Confirm Password" value={signupData.confirmPassword} onChange={handleSignupChange} required />
-                <select className="form-control" name="role" value={signupData.role} onChange={handleSignupChange}>
-                  <option value="EMPLOYEE">Employee</option>
-                  <option value="ADMIN">Admin</option>
-                </select>
-                {signupData.role === 'EMPLOYEE' && (
-                  <select className="form-control" name="clinicId" value={signupData.clinicId} onChange={handleSignupChange} required>
-                    <option value="">Select Assigned Clinic</option>
-                    {clinics.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
-                  </select>
-                )}
-                <button type="submit" className="btn btn-primary" style={{ width: '100%' }}>Create Account</button>
-              </form>
+              <h3 style={{ marginBottom: '1rem', borderBottom: '1px solid var(--border)', paddingBottom: '0.5rem' }}>Clinic Status</h3>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                {clinics.map(clinic => {
+                  if (user.role === 'EMPLOYEE' && clinic.id !== user.clinicId) return null;
+                  return (
+                    <div key={clinic.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0.75rem', backgroundColor: 'rgba(37, 99, 235, 0.1)', borderRadius: '8px' }}>
+                      <span style={{ fontSize: '0.875rem', fontWeight: 'bold' }}>{clinic.name}</span>
+                      <button
+                        onClick={() => toggleClinicStatus(clinic.id)}
+                        style={{
+                          padding: '0.25rem 0.75rem',
+                          borderRadius: '20px',
+                          border: 'none',
+                          cursor: 'pointer',
+                          backgroundColor: clinic.isOpen ? '#10b981' : '#ef4444',
+                          color: 'white',
+                          fontWeight: 'bold',
+                          fontSize: '0.75rem'
+                        }}
+                      >
+                        {clinic.isOpen ? 'OPEN' : 'CLOSED'}
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
-          )}
-        </div>
 
+            {/* Admin Signup Panel */}
+            {user.role === 'ADMIN' && (
+              <div className="glass-panel" style={{ padding: '1.5rem' }}>
+                <h3 style={{ marginBottom: '1rem', borderBottom: '1px solid var(--border)', paddingBottom: '0.5rem' }}>Create Account</h3>
+                {signupMsg && (
+                  <div style={{
+                    backgroundColor: signupMsg.type === 'success' ? 'rgba(16, 185, 129, 0.1)' : 'rgba(239, 68, 68, 0.1)',
+                    color: signupMsg.type === 'success' ? 'var(--secondary)' : 'var(--danger)',
+                    padding: '0.75rem',
+                    borderRadius: '4px',
+                    marginBottom: '1rem',
+                    fontSize: '0.875rem'
+                  }}>
+                    {signupMsg.text}
+                  </div>
+                )}
+                <form onSubmit={handleCreateAccount} style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                  <input type="text" className="form-control" name="username" placeholder="Username" value={signupData.username} onChange={handleSignupChange} required />
+                  <input type="password" className="form-control" name="password" placeholder="Password" value={signupData.password} onChange={handleSignupChange} required />
+                  <input type="password" className="form-control" name="confirmPassword" placeholder="Confirm Password" value={signupData.confirmPassword} onChange={handleSignupChange} required />
+                  <select className="form-control" name="role" value={signupData.role} onChange={handleSignupChange}>
+                    <option value="EMPLOYEE">Employee</option>
+                    <option value="ADMIN">Admin</option>
+                  </select>
+                  {signupData.role === 'EMPLOYEE' && (
+                    <select className="form-control" name="clinicId" value={signupData.clinicId} onChange={handleSignupChange} required>
+                      <option value="">Select Assigned Clinic</option>
+                      {clinics.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+                    </select>
+                  )}
+                  <button type="submit" className="btn btn-primary" style={{ width: '100%' }}>Create Account</button>
+                </form>
+              </div>
+            )}
+          </div>
 
           {/* Patient Records Section */}
           <div className="glass-panel" style={{ padding: '1.5rem', overflowX: 'auto' }}>
@@ -772,290 +771,286 @@ const generateMasterReport = () => {
             )}
           </div>
         </div>
-      </div>
 
-      {/* Edit Modal */}
-      {editingPatient && (
-        <div style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundColor: 'rgba(0,0,0,0.5)',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          zIndex: 1000,
-          padding: '1rem'
-        }}>
-          <div className="glass-panel" style={{
-            padding: '2rem',
-            width: '100%',
-            maxWidth: '650px',
-            maxHeight: '90vh',
-            overflowY: 'auto',
-            backgroundColor: 'white',
-            borderRadius: '16px',
-            boxShadow: '0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04)'
+        {/* Edit Modal */}
+        {editingPatient && (
+          <div style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0,0,0,0.5)',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            zIndex: 1000,
+            padding: '1rem'
           }}>
-
-            <h3 style={{
-              marginBottom: '1.5rem',
-              color: '#1e3a8a',
-              borderBottom: '2px solid #3b82f6',
-              paddingBottom: '0.75rem',
-              fontSize: '1.5rem',
-              fontWeight: 'bold'
+            <div className="glass-panel" style={{
+              padding: '2rem',
+              width: '100%',
+              maxWidth: '650px',
+              maxHeight: '90vh',
+              overflowY: 'auto',
+              backgroundColor: 'white',
+              borderRadius: '16px',
+              boxShadow: '0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04)'
             }}>
-              Assess Patient
-            </h3>
-
-            {/* --- PATIENT NAME & CONTACT SECTION (BLUE CONTAINER) --- */}
-            <div style={{
-              backgroundColor: '#eff6ff',
-              padding: '1.5rem',
-              borderRadius: '12px',
-              marginBottom: '1.5rem',
-              border: '1px solid #bfdbfe'
-            }}>
-              <h4 style={{
-                color: '#1e40af',
-                marginBottom: '1rem',
-                fontWeight: '600',
-                fontSize: '1rem',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.5rem'
-              }}>
-                <span style={{ width: '4px', height: '18px', backgroundColor: '#3b82f6', borderRadius: '2px' }}></span>
-                Patient Information
-              </h4>
-
-              {/* Name Fields */}
-              <div style={{ marginBottom: '1rem' }}>
-                <label style={{ fontSize: '0.75rem', color: '#1e40af', fontWeight: 'bold', textTransform: 'uppercase', display: 'block', marginBottom: '0.25rem' }}>
-                  Full Name
-                </label>
-                <div style={{ display: 'flex', gap: '0.5rem' }}>
-                  <input
-                    type="text"
-                    className="form-control"
-                    value={editingPatient.firstName || ''}
-                    onChange={e => setEditingPatient({...editingPatient, firstName: e.target.value})}
-                    placeholder="First Name"
-                    style={{ flex: 1, backgroundColor: 'white', border: '1px solid #bfdbfe' }}
-                  />
-                  <input
-                    type="text"
-                    className="form-control"
-                    value={editingPatient.middleName || ''}
-                    onChange={e => setEditingPatient({...editingPatient, middleName: e.target.value})}
-                    placeholder="Middle Name"
-                    style={{ flex: 1, backgroundColor: 'white', border: '1px solid #bfdbfe' }}
-                  />
-                  <input
-                    type="text"
-                    className="form-control"
-                    value={editingPatient.lastName || ''}
-                    onChange={e => setEditingPatient({...editingPatient, lastName: e.target.value})}
-                    placeholder="Last Name"
-                    style={{ flex: 1, backgroundColor: 'white', border: '1px solid #bfdbfe' }}
-                  />
-                </div>
-              </div>
-
-              {/* Contact Number */}
-              <div style={{ marginBottom: '0.5rem' }}>
-                <label style={{ fontSize: '0.75rem', color: '#1e40af', fontWeight: 'bold', textTransform: 'uppercase', display: 'block', marginBottom: '0.25rem' }}>
-                  Contact Number
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  value={editingPatient.contactNumber || ''}
-                  onChange={e => setEditingPatient({...editingPatient, contactNumber: e.target.value})}
-                  placeholder="Contact Number"
-                  style={{ backgroundColor: 'white', border: '1px solid #bfdbfe' }}
-                />
-              </div>
-            </div>
-
-            {/* --- MEDICAL ASSESSMENT SECTION --- */}
-            <div style={{
-              backgroundColor: '#f8fafc',
-              padding: '1.5rem',
-              borderRadius: '12px',
-              border: '1px solid #e2e8f0',
-              marginBottom: '1.5rem'
-            }}>
-              <h4 style={{
+              <h3 style={{
+                marginBottom: '1.5rem',
                 color: '#1e3a8a',
-                marginBottom: '1.25rem',
-                fontWeight: '700',
-                fontSize: '1rem',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.5rem'
+                borderBottom: '2px solid #3b82f6',
+                paddingBottom: '0.75rem',
+                fontSize: '1.5rem',
+                fontWeight: 'bold'
               }}>
-                <span style={{ backgroundColor: '#2563eb', width: '4px', height: '18px', borderRadius: '2px' }}></span>
-                Medical Assessment
-              </h4>
+                Assess Patient
+              </h3>
 
-              {/* Exposure Date */}
-              <div style={{ marginBottom: '1rem' }}>
-                <label style={{ fontSize: '0.75rem', color: '#1e40af', fontWeight: 'bold', textTransform: 'uppercase', display: 'block', marginBottom: '0.25rem' }}>
-                  Exposure Date
-                </label>
-                <input
-                  type="date"
-                  className="form-control"
-                  value={editingPatient.exposureDate || ''}
-                  max={new Date().toISOString().split('T')[0]}
-                  onChange={(e) => setEditingPatient({...editingPatient, exposureDate: e.target.value})}
-                  style={{ backgroundColor: '#ffffff', border: '1px solid #cbd5e1', padding: '0.5rem', borderRadius: '6px', width: '100%' }}
-                />
-              </div>
+              {/* --- PATIENT NAME & CONTACT SECTION (BLUE CONTAINER) --- */}
+              <div style={{
+                backgroundColor: '#eff6ff',
+                padding: '1.5rem',
+                borderRadius: '12px',
+                marginBottom: '1.5rem',
+                border: '1px solid #bfdbfe'
+              }}>
+                <h4 style={{
+                  color: '#1e40af',
+                  marginBottom: '1rem',
+                  fontWeight: '600',
+                  fontSize: '1rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem'
+                }}>
+                  <span style={{ width: '4px', height: '18px', backgroundColor: '#3b82f6', borderRadius: '2px' }}></span>
+                  Patient Information
+                </h4>
 
-              {/* Animal Type */}
-              <div style={{ marginBottom: '1rem' }}>
-                <label style={{ fontSize: '0.75rem', color: '#1e40af', fontWeight: 'bold', textTransform: 'uppercase', display: 'block', marginBottom: '0.25rem' }}>
-                  Type of Animal
-                </label>
-                <select
-                  className="form-control"
-                  value={editingPatient.animalType || ''}
-                  onChange={e => setEditingPatient({...editingPatient, animalType: e.target.value, otherAnimalSpecify: e.target.value === "Other" ? editingPatient.otherAnimalSpecify : ""})}
-                  style={{ backgroundColor: '#ffffff', border: '1px solid #cbd5e1', padding: '0.5rem', borderRadius: '6px', width: '100%' }}
-                >
-                  <option value="">Select Animal</option>
-                  <option value="Dog">Dog</option>
-                  <option value="Cat">Cat</option>
-                  <option value="Other">Others</option>
-                </select>
+                {/* Name Fields */}
+                <div style={{ marginBottom: '1rem' }}>
+                  <label style={{ fontSize: '0.75rem', color: '#1e40af', fontWeight: 'bold', textTransform: 'uppercase', display: 'block', marginBottom: '0.25rem' }}>
+                    Full Name
+                  </label>
+                  <div style={{ display: 'flex', gap: '0.5rem' }}>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={editingPatient.firstName || ''}
+                      onChange={e => setEditingPatient({...editingPatient, firstName: e.target.value})}
+                      placeholder="First Name"
+                      style={{ flex: 1, backgroundColor: 'white', border: '1px solid #bfdbfe' }}
+                    />
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={editingPatient.middleName || ''}
+                      onChange={e => setEditingPatient({...editingPatient, middleName: e.target.value})}
+                      placeholder="Middle Name"
+                      style={{ flex: 1, backgroundColor: 'white', border: '1px solid #bfdbfe' }}
+                    />
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={editingPatient.lastName || ''}
+                      onChange={e => setEditingPatient({...editingPatient, lastName: e.target.value})}
+                      placeholder="Last Name"
+                      style={{ flex: 1, backgroundColor: 'white', border: '1px solid #bfdbfe' }}
+                    />
+                  </div>
+                </div>
 
-                {editingPatient.animalType === "Other" && (
+                {/* Contact Number */}
+                <div style={{ marginBottom: '0.5rem' }}>
+                  <label style={{ fontSize: '0.75rem', color: '#1e40af', fontWeight: 'bold', textTransform: 'uppercase', display: 'block', marginBottom: '0.25rem' }}>
+                    Contact Number
+                  </label>
                   <input
                     type="text"
                     className="form-control"
-                    placeholder="Specify type of animal"
-                    value={editingPatient.otherAnimalSpecify || ''}
-                    onChange={e => setEditingPatient({...editingPatient, otherAnimalSpecify: e.target.value})}
-                    style={{ marginTop: '0.5rem', backgroundColor: '#ffffff', border: '1px solid #cbd5e1', padding: '0.5rem', borderRadius: '6px', width: '100%' }}
+                    value={editingPatient.contactNumber || ''}
+                    onChange={e => setEditingPatient({...editingPatient, contactNumber: e.target.value})}
+                    placeholder="Contact Number"
+                    style={{ backgroundColor: 'white', border: '1px solid #bfdbfe' }}
                   />
-                )}
-              </div>
-
-              {/* Place of Exposure / Place of Incident */}
-              <div style={{ marginBottom: '1rem' }}>
-                <label style={{ fontSize: '0.75rem', color: '#1e40af', fontWeight: 'bold', textTransform: 'uppercase', display: 'block', marginBottom: '0.25rem' }}>
-                  Place of Incident
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  value={editingPatient.placeOfExposure || ''}
-                  onChange={e => setEditingPatient({...editingPatient, placeOfExposure: e.target.value})}
-                  placeholder="e.g. Street, Park, House"
-                  style={{ backgroundColor: '#ffffff', border: '1px solid #cbd5e1', padding: '0.5rem', borderRadius: '6px', width: '100%' }}
-                />
-              </div>
-
-              {/* Injury Type / Exposure Type */}
-              <div style={{ marginBottom: '1rem' }}>
-                <label style={{ fontSize: '0.75rem', color: '#1e40af', fontWeight: 'bold', textTransform: 'uppercase', display: 'block', marginBottom: '0.25rem' }}>
-                  Injury Type
-                </label>
-                <select
-                  className="form-control"
-                  value={editingPatient.exposureType || ''}
-                  onChange={e => setEditingPatient({...editingPatient, exposureType: e.target.value})}
-                  style={{ backgroundColor: '#ffffff', border: '1px solid #cbd5e1', padding: '0.5rem', borderRadius: '6px', width: '100%' }}
-                >
-                  <option value="">Select Type</option>
-                  <option value="Bite">Bite</option>
-                  <option value="Scratch">Scratch</option>
-                  <option value="Other">Other</option>
-                </select>
-
-
-              </div>
-
-              {/* Condition of Animal */}
-              <div style={{ marginBottom: '1rem' }}>
-                <label style={{ fontSize: '0.75rem', color: '#1e40af', fontWeight: 'bold', textTransform: 'uppercase', display: 'block', marginBottom: '0.75rem' }}>
-                  Condition of Animal
-                </label>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '0.5rem' }}>
-                  {["Healthy", "Lost/Missing", "Sacrifice", "Sicked", "Died", "Stray"].map(option => (
-                    <label key={option} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
-                      <input
-                        type="checkbox"
-                        checked={editingPatient.animalConditions?.includes(option) || false}
-                        onChange={(e) => {
-                          const current = editingPatient.animalConditions || [];
-                          const updated = e.target.checked
-                            ? [...current, option]
-                            : current.filter(item => item !== option);
-                          setEditingPatient({...editingPatient, animalConditions: updated});
-                        }}
-                        style={{ width: '16px', height: '16px', cursor: 'pointer' }}
-                      />
-                      <span style={{ fontSize: '0.875rem' }}>{option}</span>
-                    </label>
-                  ))}
                 </div>
               </div>
 
-              {/* Bite Category */}
-              <div style={{ marginBottom: '0.5rem' }}>
-                <label style={{ fontSize: '0.75rem', color: '#1e40af', fontWeight: 'bold', textTransform: 'uppercase', display: 'block', marginBottom: '0.5rem' }}>
-                  Assign Bite Category
-                </label>
-                <select
-                  className="form-control"
-                  value={editingPatient.biteCategory || ''}
-                  onChange={e => setEditingPatient({...editingPatient, biteCategory: e.target.value})}
-                  style={{
-                    backgroundColor: '#ffffff',
-                    border: '2px solid #3b82f6',
-                    fontWeight: '600',
-                    color: '#1e3a8a',
-                    padding: '0.75rem',
-                    borderRadius: '8px',
-                    width: '100%'
-                  }}
+              {/* --- MEDICAL ASSESSMENT SECTION --- */}
+              <div style={{
+                backgroundColor: '#f8fafc',
+                padding: '1.5rem',
+                borderRadius: '12px',
+                border: '1px solid #e2e8f0',
+                marginBottom: '1.5rem'
+              }}>
+                <h4 style={{
+                  color: '#1e3a8a',
+                  marginBottom: '1.25rem',
+                  fontWeight: '700',
+                  fontSize: '1rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem'
+                }}>
+                  <span style={{ backgroundColor: '#2563eb', width: '4px', height: '18px', borderRadius: '2px' }}></span>
+                  Medical Assessment
+                </h4>
+
+                {/* Exposure Date */}
+                <div style={{ marginBottom: '1rem' }}>
+                  <label style={{ fontSize: '0.75rem', color: '#1e40af', fontWeight: 'bold', textTransform: 'uppercase', display: 'block', marginBottom: '0.25rem' }}>
+                    Exposure Date
+                  </label>
+                  <input
+                    type="date"
+                    className="form-control"
+                    value={editingPatient.exposureDate || ''}
+                    max={new Date().toISOString().split('T')[0]}
+                    onChange={(e) => setEditingPatient({...editingPatient, exposureDate: e.target.value})}
+                    style={{ backgroundColor: '#ffffff', border: '1px solid #cbd5e1', padding: '0.5rem', borderRadius: '6px', width: '100%' }}
+                  />
+                </div>
+
+                {/* Animal Type */}
+                <div style={{ marginBottom: '1rem' }}>
+                  <label style={{ fontSize: '0.75rem', color: '#1e40af', fontWeight: 'bold', textTransform: 'uppercase', display: 'block', marginBottom: '0.25rem' }}>
+                    Type of Animal
+                  </label>
+                  <select
+                    className="form-control"
+                    value={editingPatient.animalType || ''}
+                    onChange={e => setEditingPatient({...editingPatient, animalType: e.target.value, otherAnimalSpecify: e.target.value === "Other" ? editingPatient.otherAnimalSpecify : ""})}
+                    style={{ backgroundColor: '#ffffff', border: '1px solid #cbd5e1', padding: '0.5rem', borderRadius: '6px', width: '100%' }}
+                  >
+                    <option value="">Select Animal</option>
+                    <option value="Dog">Dog</option>
+                    <option value="Cat">Cat</option>
+                    <option value="Other">Others</option>
+                  </select>
+
+                  {editingPatient.animalType === "Other" && (
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="Specify type of animal"
+                      value={editingPatient.otherAnimalSpecify || ''}
+                      onChange={e => setEditingPatient({...editingPatient, otherAnimalSpecify: e.target.value})}
+                      style={{ marginTop: '0.5rem', backgroundColor: '#ffffff', border: '1px solid #cbd5e1', padding: '0.5rem', borderRadius: '6px', width: '100%' }}
+                    />
+                  )}
+                </div>
+
+                {/* Place of Exposure / Place of Incident */}
+                <div style={{ marginBottom: '1rem' }}>
+                  <label style={{ fontSize: '0.75rem', color: '#1e40af', fontWeight: 'bold', textTransform: 'uppercase', display: 'block', marginBottom: '0.25rem' }}>
+                    Place of Incident
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={editingPatient.placeOfExposure || ''}
+                    onChange={e => setEditingPatient({...editingPatient, placeOfExposure: e.target.value})}
+                    placeholder="e.g. Street, Park, House"
+                    style={{ backgroundColor: '#ffffff', border: '1px solid #cbd5e1', padding: '0.5rem', borderRadius: '6px', width: '100%' }}
+                  />
+                </div>
+
+                {/* Injury Type / Exposure Type */}
+                <div style={{ marginBottom: '1rem' }}>
+                  <label style={{ fontSize: '0.75rem', color: '#1e40af', fontWeight: 'bold', textTransform: 'uppercase', display: 'block', marginBottom: '0.25rem' }}>
+                    Injury Type
+                  </label>
+                  <select
+                    className="form-control"
+                    value={editingPatient.exposureType || ''}
+                    onChange={e => setEditingPatient({...editingPatient, exposureType: e.target.value})}
+                    style={{ backgroundColor: '#ffffff', border: '1px solid #cbd5e1', padding: '0.5rem', borderRadius: '6px', width: '100%' }}
+                  >
+                    <option value="">Select Type</option>
+                    <option value="Bite">Bite</option>
+                    <option value="Scratch">Scratch</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+
+                {/* Condition of Animal */}
+                <div style={{ marginBottom: '1rem' }}>
+                  <label style={{ fontSize: '0.75rem', color: '#1e40af', fontWeight: 'bold', textTransform: 'uppercase', display: 'block', marginBottom: '0.75rem' }}>
+                    Condition of Animal
+                  </label>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '0.5rem' }}>
+                    {["Healthy", "Lost/Missing", "Sacrifice", "Sicked", "Died", "Stray"].map(option => (
+                      <label key={option} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
+                        <input
+                          type="checkbox"
+                          checked={editingPatient.animalConditions?.includes(option) || false}
+                          onChange={(e) => {
+                            const current = editingPatient.animalConditions || [];
+                            const updated = e.target.checked
+                              ? [...current, option]
+                              : current.filter(item => item !== option);
+                            setEditingPatient({...editingPatient, animalConditions: updated});
+                          }}
+                          style={{ width: '16px', height: '16px', cursor: 'pointer' }}
+                        />
+                        <span style={{ fontSize: '0.875rem' }}>{option}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Bite Category */}
+                <div style={{ marginBottom: '0.5rem' }}>
+                  <label style={{ fontSize: '0.75rem', color: '#1e40af', fontWeight: 'bold', textTransform: 'uppercase', display: 'block', marginBottom: '0.5rem' }}>
+                    Assign Bite Category
+                  </label>
+                  <select
+                    className="form-control"
+                    value={editingPatient.biteCategory || ''}
+                    onChange={e => setEditingPatient({...editingPatient, biteCategory: e.target.value})}
+                    style={{
+                      backgroundColor: '#ffffff',
+                      border: '2px solid #3b82f6',
+                      fontWeight: '600',
+                      color: '#1e3a8a',
+                      padding: '0.75rem',
+                      borderRadius: '8px',
+                      width: '100%'
+                    }}
+                  >
+                    <option value="">Select Category</option>
+                    <option value="Category 1">Category 1 (Non-exposure - No wound)</option>
+                    <option value="Category 2">Category 2 (Minor - Scratch/abrasion without bleeding)</option>
+                    <option value="Category 3">Category 3 (Severe - Single/multiple transdermal bites/bleeding)</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem', borderTop: '1px solid #e2e8f0', paddingTop: '1.5rem' }}>
+                <button
+                  className="btn btn-secondary"
+                  onClick={() => setEditingPatient(null)}
+                  style={{ padding: '0.6rem 1.5rem', fontSize: '0.875rem' }}
                 >
-                  <option value="">Select Category</option>
-                  <option value="Category 1">Category 1 (Non-exposure - No wound)</option>
-                  <option value="Category 2">Category 2 (Minor - Scratch/abrasion without bleeding)</option>
-                  <option value="Category 3">Category 3 (Severe - Single/multiple transdermal bites/bleeding)</option>
-                </select>
+                  Cancel
+                </button>
+                <button
+                  className="btn btn-primary"
+                  onClick={handleUpdateSave}
+                  style={{ padding: '0.6rem 1.5rem', fontSize: '0.875rem', backgroundColor: '#2563eb' }}
+                >
+                  Save Changes
+                </button>
               </div>
             </div>
+          </div>
+        )}
+      </div>
+    );
+  }
 
-                       {/* Action Buttons */}
-                       <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem', borderTop: '1px solid #e2e8f0', paddingTop: '1.5rem' }}>
-                         <button
-                           className="btn btn-secondary"
-                           onClick={() => setEditingPatient(null)}
-                           style={{ padding: '0.6rem 1.5rem', fontSize: '0.875rem' }}
-                         >
-                           Cancel
-                         </button>
-                         <button
-                           className="btn btn-primary"
-                           onClick={handleUpdateSave}
-                           style={{ padding: '0.6rem 1.5rem', fontSize: '0.875rem', backgroundColor: '#2563eb' }}
-                         >
-                           Save Changes
-                         </button>
-                       </div>
-                     </div>
-                   </div>
-                 )}
-               </div>
-             );
-           }
-
-           export default Dashboard;
+  export default Dashboard;
