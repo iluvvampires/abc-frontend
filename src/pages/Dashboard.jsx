@@ -592,7 +592,8 @@ const generateMasterReport = () => {
                   ))}
                 </>
               )}
-          </div>
+              </div>
+
             {/* Clinic Status Panel */}
             <div className="glass-panel" style={{ padding: '1.5rem' }}>
               <h3 style={{ marginBottom: '1rem', borderBottom: '1px solid var(--border)', paddingBottom: '0.5rem' }}>Clinic Status</h3>
@@ -1033,13 +1034,11 @@ const generateMasterReport = () => {
                       type="text"
                       className="form-control"
                       value={editingPatient.otherAnimalSpecify || ''}
-
-
                       onChange={e => {
-                                          const lowerCaseLettersOnly = e.target.value.toLowerCase().replace(/[^a-z\s]/g, '');
-                                          setEditingPatient({...editingPatient, otherAnimalSpecify: lowerCaseLettersOnly});
-                                        }}
-                                    placeholder="Specify type of animal"
+                        const lowerCaseLettersOnly = e.target.value.toLowerCase().replace(/[^a-z\s]/g, '');
+                        setEditingPatient({...editingPatient, otherAnimalSpecify: lowerCaseLettersOnly});
+                      }}
+                      placeholder="Specify type of animal"
                       style={{ marginTop: '0.5rem', backgroundColor: '#ffffff', border: '1px solid #cbd5e1', padding: '0.5rem', borderRadius: '6px', width: '100%' }}
                     />
                   )}
@@ -1152,7 +1151,8 @@ const generateMasterReport = () => {
           </div>
         )}
       </div>
-    );
-  }
+      </div>
+      );  // Closes return
+  }  // Closes Dashboard function (This is line around 1155)
 
-  export default Dashboard;
+      export default Dashboard;
