@@ -190,7 +190,7 @@ function Dashboard() {
         username: signupData.username,
         password: signupData.password,
         role: signupData.role,
-        clinicId: signupData.role === 'EMPLOYEE' ? signupData.clinicId : null
+        clinicId: signupData.role === 'EMPLOYEE' ? Number(signupData.clinicId) : null
       };
 
       await axios.post('https://abc-backend-4.onrender.com/api/auth/signup', payload);
