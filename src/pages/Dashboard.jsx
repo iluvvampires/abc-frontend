@@ -1034,29 +1034,28 @@ const generateMasterReport = () => {
               </div>
             </div>
 
-            {/* Action Buttons */}
-            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem', borderTop: '1px solid #e2e8f0', paddingTop: '1.5rem' }}>
-              <button
-                className="btn btn-secondary"
-                onClick={() => setEditingPatient(null)}
-                style={{ padding: '0.6rem 1.5rem', fontSize: '0.875rem' }}
-              >
-                Cancel
-              </button>
-              <button
-                className="btn btn-primary"
-                onClick={handleUpdateSave}
-                style={{ padding: '0.6rem 1.5rem', fontSize: '0.875rem', backgroundColor: '#2563eb' }}
+                       {/* Action Buttons */}
+                       <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem', borderTop: '1px solid #e2e8f0', paddingTop: '1.5rem' }}>
+                         <button
+                           className="btn btn-secondary"
+                           onClick={() => setEditingPatient(null)}
+                           style={{ padding: '0.6rem 1.5rem', fontSize: '0.875rem' }}
+                         >
+                           Cancel
+                         </button>
+                         <button
+                           className="btn btn-primary"
+                           onClick={handleUpdateSave}
+                           style={{ padding: '0.6rem 1.5rem', fontSize: '0.875rem', backgroundColor: '#2563eb' }}
+                         >
+                           Save Changes
+                         </button>
+                       </div>
+                     </div>
+                   </div>
+                 )}
+               </div>
+             );
+           }
 
-                           >
-                             Save Changes
-                           </button>
-                                       </div>
-                                     </div>
-                                   </div>
-                                 )}
-                               </div>
-                             );  // <-- Close the return statement
-                           }      // <-- Close the Dashboard function
-
-                           export default Dashboard;  // <-- Export the component
+           export default Dashboard;
