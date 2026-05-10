@@ -451,60 +451,49 @@ const attemptSubmit = (e) => {
 
 
 
-            {/* PROVINCE */}
-            <div className="form-group">
-              <label>Province <span style={{ color: 'red' }}>*</span></label>
-              <select className="form-control" name="province" value={formData.province} onChange={handleChange} required>
-                <option value="">Select Province</option>
-                {luzonProvinces.map(p => <option key={p} value={p}>{p}</option>)}
-              </select>
-            </div>
+            <div className="grid grid-cols-2">
+                        <div className="form-group">
+                          <label>Province <span style={{ color: 'var(--danger)' }}>*</span></label>
+                          <select className="form-control" name="province" value={formData.province} onChange={handleChange} required>
+                            <option value="">Select Province</option>
+                            {luzonProvinces.map(p => <option key={p} value={p}>{p}</option>)}
+                          </select>
+                        </div>
+                        <div className="form-group">
+                          <label>City / Municipality <span style={{ color: 'var(--danger)' }}>*</span></label>
+                          <select className="form-control" name="city" value={formData.city} onChange={handleChange} required disabled={!formData.province}>
+                            <option value="">{formData.province ? "Select City / Municipality" : "Select Province First"}</option>
+                            {availableCities.map(c => <option key={c} value={c}>{c}</option>)}
+                          </select>
+                        </div>
+                      </div>
 
-            {/* CITY */}
-            <div className="form-group">
-              <label>City/Municipality <span style={{ color: 'red' }}>*</span></label>
-              <select className="form-control" name="city" value={formData.city} onChange={handleChange} required disabled={!formData.province}>
-                <option value="">Select City</option>
-                {availableCities.map(c => <option key={c} value={c}>{c}</option>)}
-              </select>
-            </div>
-
-            {/* BARANGAY */}
-            <div className="form-group">
-              <label>Barangay <span style={{ color: 'red' }}>*</span></label>
-              {availableBarangays ? (
-                <select className="form-control" name="barangay" value={formData.barangay} onChange={handleChange} required>
-                  <option value="">Select Barangay</option>
-                  {availableBarangays.map(b => <option key={b} value={b}>{b}</option>)}
-                </select>
-              ) : (
-                <input
-                  type="text"
-                  className="form-control"
-                  name="barangay"
-                  value={formData.barangay}
-                  onChange={handleChange}
-                  placeholder="Enter barangay"
-                  required
-                />
-              )}
-            </div>
-
-
-
-            {/* STREET ADDRESS */}
-            <div className="form-group">
-              <label>Street Address / House No. <span style={{ color: 'red' }}>*</span></label>
-              <input
-                type="text"
-                className="form-control"
-                name="streetAddress"
-                value={formData.streetAddress}
-                onChange={handleChange}
-                required
-                placeholder="123 Street Name"
-              />
-            </div>
+                      <div className="grid grid-cols-2">
+                        <div className="form-group">
+                          <label>Barangay <span style={{ color: 'var(--danger)' }}>*</span></label>
+                          {availableBarangays ? (
+                            <select className="form-control" name="barangay" value={formData.barangay} onChange={handleChange} required disabled={!formData.city}>
+                              <option value="">Select Barangay</option>
+                              {availableBarangays.map(b => <option key={b} value={b}>{b}</option>)}
+                            </select>
+                          ) : (
+                            <input type="text" className="form-control" name="barangay" value={formData.barangay} onChange={handleChange} required placeholder={formData.city ? "Ex: Brgy. San Isidro" : "Select City First"} disabled={!formData.city} />
+                          )}
+                        </div>
+                        <div className="form-group">
+                          <label>Street Address / House No. <span style={{ color: 'var(--danger)' }}>*</span></label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            name="streetAddress"
+                            value={formData.streetAddress}
+                            onChange={handleChange}
+                            required
+                            placeholder={formData.barangay ? "Ex: 123 Main St. / Blk 1 Lot 2" : "Select Barangay First"}
+                            disabled={!formData.province || !formData.city || !formData.barangay}
+                          />
+                        </div>
+                      </div>
 
 
 
