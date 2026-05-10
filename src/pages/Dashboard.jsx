@@ -335,17 +335,17 @@ const generateClinicReport = (clinicId, clinicName) => {
 
        // TABLE FOOTER (TOTAL row at the bottom)
        const foot = [[
-         { content: 'TOTAL', styles: { fontStyle: 'bold', fillColor: [240, 240, 240] } },
-         { content: maleCount, styles: { fontStyle: 'bold', fillColor: [240, 240, 240] } },
-         { content: femaleCount, styles: { fontStyle: 'bold', fillColor: [240, 240, 240] } },
-         { content: u15Count, styles: { fontStyle: 'bold', fillColor: [240, 240, 240] } },
-         { content: o15Count, styles: { fontStyle: 'bold', fillColor: [240, 240, 240] } },
-         { content: cat1Count, styles: { fontStyle: 'bold', fillColor: [240, 240, 240] } },
-         { content: cat2Count, styles: { fontStyle: 'bold', fillColor: [240, 240, 240] } },
-         { content: cat3Count, styles: { fontStyle: 'bold', fillColor: [240, 240, 240] } },
-         { content: dogCount, styles: { fontStyle: 'bold', fillColor: [240, 240, 240] } },
-         { content: catCount, styles: { fontStyle: 'bold', fillColor: [240, 240, 240] } },
-         { content: otherCount, styles: { fontStyle: 'bold', fillColor: [240, 240, 240] } }
+         { content: 'TOTAL', styles: { fontStyle: 'bold', fillColor: [0, 0, 0] } },
+         { content: maleCount, styles: { fontStyle: 'bold', fillColor: [0, 0, 0] } },
+         { content: femaleCount, styles: { fontStyle: 'bold', fillColor: [0, 0, 0] } },
+         { content: u15Count, styles: { fontStyle: 'bold', fillColor: [0, 0, 0] } },
+         { content: o15Count, styles: { fontStyle: 'bold', fillColor: [0, 0, 0] } },
+         { content: cat1Count, styles: { fontStyle: 'bold', fillColor: [0, 0, 0] } },
+         { content: cat2Count, styles: { fontStyle: 'bold', fillColor: [0, 0, 0] } },
+         { content: cat3Count, styles: { fontStyle: 'bold', fillColor: [0, 0, 0] } },
+         { content: dogCount, styles: { fontStyle: 'bold', fillColor: [0, 0, 0] } },
+         { content: catCount, styles: { fontStyle: 'bold', fillColor: [0, 0, 0] } },
+         { content: otherCount, styles: { fontStyle: 'bold', fillColor: [0, 0, 0] } }
        ]];
 
        autoTable(doc, {
