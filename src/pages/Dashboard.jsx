@@ -580,9 +580,9 @@ const generateMasterReport = () => {
                   <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '0.5rem', marginBottom: '0.5rem' }}>Per Clinic:</p>
                   {clinics.map(c => (
                     <button
-                      key={c.id}
+                      key={c.clinicId}  // Changed from c.id
                       className="btn btn-secondary"
-                      onClick={() => generateClinicReport(c.id, c.name)}
+                      onClick={() => generateClinicReport(c.clinicId, c.name)}  // Changed from c.id
                       style={{ width: '100%', fontSize: '0.8rem', padding: '0.5rem', marginBottom: '0.25rem' }}
                     >
                       {c.name}
@@ -590,8 +590,6 @@ const generateMasterReport = () => {
                   ))}
                 </>
               )}
-            </div>
-
             {/* Clinic Status Panel */}
             <div className="glass-panel" style={{ padding: '1.5rem' }}>
               <h3 style={{ marginBottom: '1rem', borderBottom: '1px solid var(--border)', paddingBottom: '0.5rem' }}>Clinic Status</h3>
