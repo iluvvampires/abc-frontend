@@ -110,6 +110,7 @@ function Dashboard() {
       exposureDate: exposure.exposureDate || today,
       biteCategory: exposure.biteCategory || '',
       animalType: exposure.animalType || '',
+      otherAnimalSpecify: exposure.otherAnimalSpecify || '',
       exposureType: exposure.exposureType || '',
       placeOfExposure: exposure.placeOfExposure || '',
 
@@ -122,6 +123,7 @@ function Dashboard() {
      const payload = {
        exposureDate: editingPatient.exposureDate,
        animalType: editingPatient.animalType,
+       otherAnimalSpecify: editingPatient.animalType === "Other" ? editingPatient.otherAnimalSpecify
        biteCategory: editingPatient.biteCategory,
        exposureType: editingPatient.exposureType,  // This will be "Bite", "Scratch", or "Other"
        placeOfExposure: editingPatient.placeOfExposure,
