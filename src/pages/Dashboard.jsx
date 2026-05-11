@@ -624,65 +624,16 @@ const generateMasterReport = () => {
               </div>
             </div>
 
-            {/* Vaccination Modules Stub Testing */}
-            <div className="glass-panel" style={{ padding: '1.5rem', marginTop: '1rem' }}>
-              <h3 style={{ marginBottom: '1rem', borderBottom: '1px solid var(--border)', paddingBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
-                  <circle cx="12" cy="12" r="3"/>
-                </svg>
-                Vaccination Module <span style={{ fontSize: '0.7rem', backgroundColor: '#10b981', color: 'white', padding: '0.2rem 0.5rem', borderRadius: '20px' }}>Stub Test</span>
-              </h3>
-
-              <div style={{
-                backgroundColor: '#f0fdf4',
-                border: '1px solid #bbf7d0',
-                borderRadius: '12px',
-                padding: '1.5rem',
-                textAlign: 'center'
-              }}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ margin: '0 auto 1rem' }}>
-                  <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
-                  <circle cx="12" cy="12" r="3"/>
-                </svg>
-                <h4 style={{ color: '#166534', marginBottom: '0.5rem', fontWeight: 'bold' }}>Vaccination Tracking</h4>
-                <p style={{ color: '#4b5563', fontSize: '0.875rem', marginBottom: '0.5rem' }}>
-                  This module will handle patient vaccination schedules,
-                  dose tracking, and appointment reminders.
-                </p>
-                <div style={{
-                  display: 'inline-flex',
-                  gap: '1rem',
-                  marginTop: '0.75rem',
-                  padding: '0.5rem 1rem',
-                  backgroundColor: '#dcfce7',
-                  borderRadius: '8px',
-                  fontSize: '0.75rem',
-                  color: '#166534'
-                }}>
-                  <span>✅ Dose 1</span>
-                  <span>✅ Dose 2</span>
-                  <span>✅ Booster</span>
-                  <span>⏱️ Reminders</span>
-                </div>
-                <button
-                  style={{
-                    marginTop: '1rem',
-                    padding: '0.5rem 1rem',
-                    backgroundColor: '#22c55e',
-                    color: 'white',
-                    border: 'none',
-                    borderRadius: '8px',
-                    cursor: 'pointer',
-                    fontSize: '0.875rem',
-                    fontWeight: '500'
-                  }}
-                  onClick={() => alert('Vaccination Module - Coming soon!')}
-                >
-                  View Stub Demo →
-                </button>
-              </div>
-            </div>
+            <div className="glass-panel" style={{ padding: '2rem', height: 'fit-content' }}>
+                        <h3 style={{ marginBottom: '1rem', borderBottom: '1px solid var(--border)', paddingBottom: '0.5rem' }}>Modules</h3>
+                        <button
+                          className="btn btn-secondary"
+                          style={{ width: '100%', backgroundColor: 'rgba(37,99,235,0.1)', color: '#1e40af', border: '1px solid rgba(37,99,235,0.3)', fontWeight: 'bold' }}
+                          onClick={() => alert('This module will handle the scheduling and tracking of vaccinations')}
+                        >
+                          Vaccinations
+                        </button>
+                      </div>
 
             {/* Admin Signup Panel */}
             {user.role === 'ADMIN' && (
